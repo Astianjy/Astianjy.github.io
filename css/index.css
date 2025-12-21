@@ -1817,7 +1817,7 @@ table td {
   vertical-align: middle;
 }
 *::selection {
-  background: #00c4b6;
+  background: #223852;
   color: #f7f7f7;
 }
 button {
@@ -3900,7 +3900,7 @@ figure.highlight pre .javascript .function {
   color: #49b1f5;
 }
 #aside-content #card-toc .toc-content .toc-link.active {
-  background: #00c4b6;
+  background: #49b1f5;
   color: #fff;
 }
 #aside-content .sticky_layout:only-child > :first-child {
@@ -7633,7 +7633,7 @@ blockquote.pullquote.right {
   --tab-button-color: rgba(255,255,255,0.7);
   --tab-button-hover-bg: #383838;
   --tab-button-active-bg: #121212;
-  --card-bg: #121212;
+  --card-bg: #141414;
   --sidebar-bg: #121212;
   --sidebar-menu-bg: #1f1f1f;
   --btn-hover-color: #787878;
