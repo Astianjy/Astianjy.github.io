@@ -1,0 +1,37 @@
+<svg width="920" height="640" viewBox="0 0 920 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Technical research flow diagram</title>
+  <desc id="desc">A system flow diagram showing input, parser, boundary check, page cache, and mitigation blocks.</desc>
+  <rect width="920" height="640" rx="20" fill="#FFFFFF"/>
+  <rect x="1" y="1" width="918" height="638" rx="19" stroke="#DDE3EA" stroke-width="2"/>
+  <path d="M80 0V640M180 0V640M280 0V640M380 0V640M480 0V640M580 0V640M680 0V640M780 0V640M880 0V640" stroke="#EEF2F6" stroke-width="1"/>
+  <path d="M0 80H920M0 160H920M0 240H920M0 320H920M0 400H920M0 480H920M0 560H920" stroke="#EEF2F6" stroke-width="1"/>
+  <rect x="58" y="58" width="804" height="56" rx="8" fill="#F4F7FB" stroke="#DDE3EA"/>
+  <text x="84" y="94" fill="#0D1117" font-family="JetBrains Mono, ui-monospace, monospace" font-size="18">research pipeline / reproducible analysis</text>
+  <circle cx="814" cy="86" r="7" fill="#E05648"/>
+  <circle cx="838" cy="86" r="7" fill="#D1942E"/>
+  <circle cx="862" cy="86" r="7" fill="#16A36A"/>
+  <g font-family="JetBrains Mono, ui-monospace, monospace" font-size="14">
+    <rect x="78" y="176" width="190" height="110" rx="8" fill="#FBFCFD" stroke="#CBD5E1" stroke-width="2"/>
+    <text x="102" y="211" fill="#6B7280">01 input</text>
+    <text x="102" y="244" fill="#0D1117">crafted request</text>
+    <text x="102" y="268" fill="#2F6FED">0x41 0x41 0x2f</text>
+    <rect x="365" y="176" width="190" height="110" rx="8" fill="#FBFCFD" stroke="#CBD5E1" stroke-width="2"/>
+    <text x="389" y="211" fill="#6B7280">02 parser</text>
+    <text x="389" y="244" fill="#0D1117">state transition</text>
+    <text x="389" y="268" fill="#D1942E">guard skipped</text>
+    <rect x="652" y="176" width="190" height="110" rx="8" fill="#FBFCFD" stroke="#CBD5E1" stroke-width="2"/>
+    <text x="676" y="211" fill="#6B7280">03 cache</text>
+    <text x="676" y="244" fill="#0D1117">shared page</text>
+    <text x="676" y="268" fill="#E05648">write visible</text>
+    <path d="M276 231H350" stroke="#2F6FED" stroke-width="2" stroke-linecap="round"/>
+    <path d="M350 231L338 223M350 231L338 239" stroke="#2F6FED" stroke-width="2" stroke-linecap="round"/>
+    <path d="M563 231H637" stroke="#2F6FED" stroke-width="2" stroke-linecap="round"/>
+    <path d="M637 231L625 223M637 231L625 239" stroke="#2F6FED" stroke-width="2" stroke-linecap="round"/>
+    <rect x="142" y="356" width="636" height="74" rx="8" fill="#0D1117"/>
+    <text x="178" y="386" fill="#9CA3AF">$ ./verify --target fleet --format table</text>
+    <text x="178" y="414" fill="#D1D5DB">ubuntu: affected  amazon: affected  rhel: affected  suse: affected</text>
+    <rect x="142" y="472" width="636" height="70" rx="8" fill="#F1F8F4" stroke="#B8E0C8"/>
+    <text x="178" y="501" fill="#0D1117">mitigation</text>
+    <text x="178" y="528" fill="#14784C">patch first, block primitive, verify with a clean reboot</text>
+  </g>
+</svg>

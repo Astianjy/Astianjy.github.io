@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trace Notes - Technical Research Blog</title>
+  <meta name="description" content="A copy.fail-inspired technical research blog prototype.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#overview" aria-label="Trace Notes home">
+        <img src="assets/mark.svg" alt="">
+        Trace <span>Notes</span>
+      </a>
+      <nav class="nav" aria-label="Sections">
+        <a href="#demo">Demo</a>
+        <a href="#impact">Impact</a>
+        <a href="#analysis">Analysis</a>
+        <a href="#mitigation">Mitigation</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="overview">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="kicker">Research brief / May 17, 2026 / Build preview</p>
+          <h1>Small writes, <span class="accent">system-wide</span> impact.</h1>
+          <p class="lede">A technical blog layout for vulnerability research, exploit write-ups, and mitigation notes - built in the restrained disclosure style you liked.</p>
+          <p class="subcopy">This mock page treats every article like a field report: headline result first, proof next, scope and remediation close behind. It keeps the reading surface calm while still feeling technical.</p>
+          <div class="chips" aria-label="Research metadata">
+            <span class="chip strong">reproducible</span>
+            <span class="chip">no race window</span>
+            <span class="chip">kernel boundary</span>
+            <span class="chip">fleet impact</span>
+            <span class="chip">patch-first guidance</span>
+          </div>
+          <div class="cta-row">
+            <a class="btn primary" href="#analysis">Read analysis &rarr;</a>
+            <a class="btn" href="#mitigation">See mitigation</a>
+            <div class="density-toggle" aria-label="Reading density">
+              <button type="button" data-density="full" aria-pressed="true">Full</button>
+              <button type="button" data-density="brief" aria-pressed="false">Brief</button>
+            </div>
+          </div>
+        </div>
+        <aside class="hero-visual" aria-label="Research flow diagram">
+          <img src="assets/research-diagram.svg" alt="A system flow diagram for a vulnerability research pipeline.">
+        </aside>
+      </div>
+    </section>
+
+    <section id="demo">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">The demo</p>
+            <h2>One run, four targets, the same observable result.</h2>
+            <p>The terminal block is the main visual anchor: it replaces decorative hero art with concrete technical evidence.</p>
+          </div>
+          <a class="btn" href="#impact">Am I affected?</a>
+        </div>
+
+        <div class="terminal" aria-label="Demo terminal">
+          <div class="terminal-bar">
+            <div class="lights" aria-hidden="true"><span></span><span></span><span></span></div>
+            <span>tmux - research replay</span>
+            <span class="terminal-title">live capture</span>
+          </div>
+          <div class="terminal-body">
+            <div class="term-pane">
+              <div class="distro"><span>ubuntu-24.04</span><span class="live">live</span></div>
+              <pre class="term-lines">$ ./tracefault.py
+probe: af_alg path
+write: 4 bytes
+result: <span class="ok">uid=0(root)</span></pre>
+            </div>
+            <div class="term-pane">
+              <div class="distro"><span>amazon-2023</span><span class="live">live</span></div>
+              <pre class="term-lines">$ ./tracefault.py
+probe: page cache
+write: 4 bytes
+result: <span class="ok">root shell</span></pre>
+            </div>
+            <div class="term-pane">
+              <div class="distro"><span>rhel-10.1</span><span class="live">live</span></div>
+              <pre class="term-lines">$ ./tracefault.py
+probe: setuid map
+write: 4 bytes
+result: <span class="ok">verified</span></pre>
+            </div>
+            <div class="term-pane">
+              <div class="distro"><span>suse-16</span><span class="live">live</span></div>
+              <pre class="term-lines">$ ./tracefault.py
+probe: shared host
+write: 4 bytes
+result: <span class="warn">node escape</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="demo-meta">
+          <span>artifact</span>
+          <code id="artifact-hash" class="hash">sha256: 89b8e1f4e2f081c057e1c3f05b9d1a98d7c703a745c0f2251e7737e7dfe12f91</code>
+          <button class="btn" type="button" data-copy-hash>Copy hash</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="impact">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Who is affected</p>
+            <h2>Risk is described by environment, not only version.</h2>
+            <p>A technical blog should make triage easy. Readers need to know whether to patch now, isolate first, or schedule normal maintenance.</p>
+          </div>
+        </div>
+
+        <div class="matrix">
+          <table>
+            <thead>
+              <tr>
+                <th>Environment</th>
+                <th>Exposure</th>
+                <th>Operator action</th>
+                <th>Priority</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Shared Linux hosts</strong></td>
+                <td>Any user can cross a local privilege boundary.</td>
+                <td>Patch kernel and rotate local secrets.</td>
+                <td><span class="status high">High</span></td>
+              </tr>
+              <tr>
+                <td><strong>CI runners</strong></td>
+                <td>Untrusted pull requests run on a shared kernel.</td>
+                <td>Pause untrusted jobs until patched.</td>
+                <td><span class="status high">High</span></td>
+              </tr>
+              <tr>
+                <td><strong>Kubernetes nodes</strong></td>
+                <td>Pod execution can become host impact.</td>
+                <td>Patch nodes and enforce seccomp.</td>
+                <td><span class="status high">High</span></td>
+              </tr>
+              <tr>
+                <td><strong>Single-user laptops</strong></td>
+                <td>Requires local code execution first.</td>
+                <td>Update normally, avoid unknown binaries.</td>
+                <td><span class="status med">Medium</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="risk-grid">
+          <article class="risk-card high">
+            <p class="label">Immediate</p>
+            <h3>Multi-tenant systems</h3>
+            <p>Any regular shell user or tenant workload has a direct path to host-level impact.</p>
+          </article>
+          <article class="risk-card med">
+            <p class="label">Conditional</p>
+            <h3>Standard servers</h3>
+            <p>The issue becomes serious when chained after web RCE, stolen SSH, or supply-chain execution.</p>
+          </article>
+          <article class="risk-card low">
+            <p class="label">Lower</p>
+            <h3>Ephemeral sandboxes</h3>
+            <p>Short-lived environments still need guardrails, but blast radius is more contained.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="analysis">
+      <div class="wrap article-shell">
+        <article class="prose">
+          <p class="eyebrow">Analysis</p>
+          <h2>Write the article like an incident report, not a diary.</h2>
+          <h3 id="root-cause">Root cause</h3>
+          <p>The page should open with the final primitive and only then walk backward into the mechanism. That is what gives pages like copy.fail their urgency: readers do not have to hunt for the point.</p>
+          <p class="full-only">For Hexo, this maps cleanly to a dedicated layout. Ordinary posts can keep your existing theme, while disclosure posts use a focused template with fixed sections and stronger metadata.</p>
+          <pre class="code-block" data-lang="yaml"><code><span class="tok-key">layout</span><span class="tok-punc">:</span> <span class="tok-symbol">research</span>
+<span class="tok-key">title</span><span class="tok-punc">:</span> <span class="tok-string">"TraceFault: Small Writes, System-Wide Impact"</span>
+<span class="tok-key">severity</span><span class="tok-punc">:</span> <span class="tok-severity">high</span>
+<span class="tok-key">tags</span><span class="tok-punc">:</span>
+  <span class="tok-list">-</span> <span class="tok-symbol">linux</span>
+  <span class="tok-list">-</span> <span class="tok-symbol">kernel</span>
+  <span class="tok-list">-</span> <span class="tok-symbol">vulnerability-research</span></code></pre>
+          <h3 id="writing-system">Writing system</h3>
+          <p>Use sections with predictable jobs: demo, affected systems, mechanism, exploitability, mitigation, FAQ, and timeline. The visual design should stay quiet so code, tables, and evidence carry the drama.</p>
+          <h3 id="archive">Research archive</h3>
+          <p>Below the feature page, article cards give you the normal blog behavior: readers can continue into related posts without breaking the one-page disclosure rhythm.</p>
+
+          <div class="post-grid">
+            <article class="post-card">
+              <p class="label">Exploit notes</p>
+              <h3>Turning a small primitive into reliable impact</h3>
+              <p>How to explain exploit reliability without burying the lead.</p>
+            </article>
+            <article class="post-card">
+              <p class="label">Detection</p>
+              <h3>What defenders can actually observe</h3>
+              <p>Logs, kernel traces, audit events, and where visibility fails.</p>
+            </article>
+            <article class="post-card">
+              <p class="label">Remediation</p>
+              <h3>Patch rollout notes for mixed fleets</h3>
+              <p>Prioritization, canaries, rollback checks, and verification.</p>
+            </article>
+          </div>
+        </article>
+
+        <aside class="toc" aria-label="Article contents">
+          <p>Contents</p>
+          <a href="#root-cause">Root cause</a>
+          <a href="#writing-system">Writing system</a>
+          <a href="#archive">Research archive</a>
+          <a href="#mitigation">Mitigation</a>
+          <a href="#timeline">Timeline</a>
+        </aside>
+      </div>
+    </section>
+
+    <section id="mitigation">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Mitigation</p>
+            <h2>Make the fix block impossible to miss.</h2>
+            <p>The mitigation section should be short, operational, and written for someone in the middle of an incident response window.</p>
+          </div>
+        </div>
+
+        <div class="mitigation">
+          <div>
+            <h3>Patch first</h3>
+            <p>Update the vulnerable component, reboot into the fixed kernel or runtime, and verify the new version is active.</p>
+            <pre class="command" data-lang="bash"><span class="tok-cmd">sudo</span> <span class="tok-bin">apt</span> update
+<span class="tok-cmd">sudo</span> <span class="tok-bin">apt</span> install <span class="tok-arg">linux-image-generic</span>
+<span class="tok-cmd">sudo</span> reboot</pre>
+          </div>
+          <div>
+            <h3>Reduce exposure before patching</h3>
+            <p>Disable the primitive where possible, isolate untrusted workloads, and collect evidence before clearing affected hosts.</p>
+            <pre class="command" data-lang="bash"><span class="tok-bin">echo</span> <span class="tok-string">"deny primitive"</span> <span class="tok-op">&gt;</span> <span class="tok-path">/etc/security/research.conf</span>
+<span class="tok-bin">systemctl</span> restart <span class="tok-arg">sandboxd</span>
+<span class="tok-path">./verify</span> <span class="tok-flag">--fleet</span> <span class="tok-arg">production</span></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="timeline">
+      <div class="wrap narrow">
+        <p class="eyebrow">Disclosure timeline</p>
+        <h2>Dates, decisions, and reproducibility stay together.</h2>
+        <div class="timeline">
+          <div class="event">
+            <time datetime="2026-04-02">2026-04-02</time>
+            <h3>Initial report</h3>
+            <p>Issue reported with a minimal reproducer and affected configuration notes.</p>
+          </div>
+          <div class="event">
+            <time datetime="2026-04-06">2026-04-06</time>
+            <h3>Patch reviewed</h3>
+            <p>Maintainers confirmed the primitive and proposed a conservative fix.</p>
+          </div>
+          <div class="event">
+            <time datetime="2026-04-19">2026-04-19</time>
+            <h3>Vendor packages staged</h3>
+            <p>Downstream distributions began building patched packages for supported releases.</p>
+          </div>
+          <div class="event">
+            <time datetime="2026-05-17">2026-05-17</time>
+            <h3>Public write-up</h3>
+            <p>Research note, demo artifact, mitigations, and verification guidance published.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="wrap narrow">
+        <p class="eyebrow">FAQ</p>
+        <h2>Answer the questions readers ask under pressure.</h2>
+        <div class="faq">
+          <details open>
+            <summary>Should this replace my normal blog theme?<span>&rarr;</span></summary>
+            <p>No. Use this as a special research layout. Keep your normal Hexo blog for routine posts and use this style for major disclosures, tools, advisories, and flagship write-ups.</p>
+          </details>
+          <details>
+            <summary>Can this become a Hexo layout later?<span>&rarr;</span></summary>
+            <p>Yes. The HTML can become an EJS layout, the CSS can move into your theme assets, and repeated blocks can become partials such as hero, terminal, timeline, and FAQ.</p>
+          </details>
+          <details>
+            <summary>Why is the design so restrained?<span>&rarr;</span></summary>
+            <p>Technical credibility usually comes from evidence density, not decoration. The page uses spacing, borders, mono text, tables, and terminal captures as the core visual language.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">Trace Notes prototype. Static HTML preview for a Hexo-friendly technical research blog.</div>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
