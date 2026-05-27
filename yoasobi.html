@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YOASOBI · 小説を音楽にするユニット — Novel into Music</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --night: #08080F;
+  --night-blue: #0E1428;
+  --night-mid: #151B30;
+  --night-soft: #1E2540;
+  --pink: #F2285A;
+  --pink-light: #FF4D7A;
+  --pink-glow: rgba(242, 40, 90, 0.15);
+  --gold: #C9A84C;
+  --gold-light: #E5C76E;
+  --cream: #F5F0E8;
+  --cream-dark: #E8E0D4;
+  --ink: #0A0A0A;
+  --ink-soft: #3A3A3A;
+  --ink-muted: #6A6A6A;
+  --book-red: #E08B7A;
+  --book-green: #5A9E8F;
+  --book-yellow: #E8C84A;
+  --book-purple: #8B6FB0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'Cormorant Garamond', 'Noto Serif JP', Georgia, serif;
+  background: var(--night);
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+::selection { background: var(--pink); color: #fff; }
+
+/* ============ HERO ============ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 6vw;
+  overflow: hidden;
+  text-align: center;
+  background:
+    radial-gradient(ellipse 80% 50% at 70% 60%, rgba(242, 40, 90, 0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 20% 80%, rgba(201, 168, 76, 0.04) 0%, transparent 60%),
+    linear-gradient(180deg, #08080F 0%, #0E1428 50%, #151B30 100%);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 45% 35%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 75% 15%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 85% 55%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(1px 1px at 25% 70%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1px 1px at 92% 85%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 8% 90%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1.5px 1.5px at 60% 10%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1.5px 1.5px at 35% 55%, rgba(255,255,255,0.5), transparent);
+  pointer-events: none;
+}
+
+.hero-logo {
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-logo img {
+  height: 42px;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+
+.hero-tagline {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 300;
+  line-height: 1.05;
+  color: #fff;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
+  letter-spacing: -0.02em;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--pink-light);
+}
+
+.hero-subtitle {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 2;
+  letter-spacing: 0.05em;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 3rem;
+  position: relative;
+  z-index: 2;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hero-meta-item {
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  padding-left: 1rem;
+  text-align: left;
+}
+
+.hero-meta-label {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  margin-bottom: 0.3rem;
+}
+
+.hero-meta-value {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 3rem;
+  right: 6vw;
+  z-index: 2;
+}
+
+.hero-scroll span {
+  display: block;
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+  animation: scrollPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 0.8; transform: scaleY(1.2); }
+}
+
+/* ============ SECTION COMMON ============ */
+.section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.section-inner > .section-label,
+.section-inner > .section-title,
+.section-inner > h2 {
+  text-align: center;
+}
+
+.section-dark, .section-night, .section-cream, .idol-section {
+  text-align: center;
+}
+
+.section-dark > .section-label,
+.section-dark > .section-title,
+.section-night > .section-label,
+.section-night > .section-title,
+.section-cream > .section-label,
+.section-cream > .section-title,
+.idol-section > .section-label,
+.idol-section > .section-title {
+  text-align: center;
+}
+
+.section-dark {
+  padding: 6rem 6vw;
+  background: var(--night);
+}
+
+.section-night {
+  padding: 6rem 6vw;
+  background: linear-gradient(180deg, var(--night) 0%, var(--night-blue) 100%);
+}
+
+.section-cream {
+  padding: 6rem 6vw;
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.section-label {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+
+.section-cream .section-label { color: var(--pink); }
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 300;
+  line-height: 1.2;
+  margin-bottom: 2.5rem;
+}
+
+.section-cream .section-title { color: var(--ink); }
+
+/* ============ CONCEPT ============ */
+.concept-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.concept-text {
+  font-size: 1.05rem;
+  line-height: 2;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.concept-text p + p { margin-top: 1.5rem; }
+
+.concept-text strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.concept-quote {
+  padding: 2.5rem;
+  border-left: 2px solid var(--pink);
+  background: rgba(242, 40, 90, 0.04);
+  text-align: left;
+}
+
+.concept-quote blockquote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1rem;
+}
+
+.concept-quote cite {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.75rem;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+}
+
+/* ============ MEMBERS ============ */
+.members-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.member-card {
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  position: relative;
+}
+
+.member-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--pink);
+}
+
+.member-card.ikura::before {
+  background: var(--gold);
+}
+
+.member-role {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pink);
+  margin-bottom: 0.5rem;
+}
+
+.member-card.ikura .member-role { color: var(--gold); }
+
+.member-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 300;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.member-name-jp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 1.5rem;
+}
+
+.member-desc {
+  font-size: 0.95rem;
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.member-desc p + p { margin-top: 1rem; }
+
+.member-stats {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.member-stat {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.member-stat strong {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+/* ============ TIMELINE ============ */
+.timeline-container {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 3rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.15) 10%, rgba(255,255,255,0.15) 90%, transparent);
+}
+
+.timeline-year {
+  position: relative;
+  margin-bottom: 2.5rem;
+}
+
+.timeline-year::before {
+  content: '';
+  position: absolute;
+  left: -3rem;
+  top: 0.6rem;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pink);
+  box-shadow: 0 0 10px var(--pink-glow);
+}
+
+.timeline-year-label {
+  font-family: 'EB Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--pink-light);
+  margin-bottom: 0.75rem;
+}
+
+.timeline-events {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.timeline-event {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.timeline-event strong {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.timeline-event .highlight {
+  color: var(--gold-light);
+  font-weight: 500;
+}
+
+/* ============ DISCOGRAPHY ============ */
+.disco-books {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto 4rem;
+}
+
+.disco-book {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.disco-book:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+}
+
+.disco-book img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.disco-book-overlay {
+  position: relative;
+  z-index: 2;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+}
+
+.disco-book-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.15rem;
+  text-align: left;
+}
+
+.disco-book-year {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.7);
+}
+
+.disco-book-note {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.55);
+  margin-top: 0.3rem;
+  font-style: italic;
+}
+
+.disco-singles-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.disco-singles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.disco-single {
+  display: grid;
+  grid-template-columns: 3rem 1fr auto;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.disco-single-num {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.25);
+  text-align: right;
+}
+
+.disco-single-name {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.85);
+}
+
+.disco-single-name .jp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.5);
+  margin-left: 0.5rem;
+}
+
+.disco-single-source {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.35);
+  text-align: right;
+  max-width: 180px;
+}
+
+/* ============ IDOL DEEP DIVE ============ */
+.idol-section {
+  background: linear-gradient(180deg, var(--night-blue) 0%, var(--night) 100%);
+  padding: 6rem 6vw;
+}
+
+.idol-number {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(4rem, 10vw, 8rem);
+  font-weight: 300;
+  color: var(--pink);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+.idol-label {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.idol-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.idol-stat-card {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.idol-text {
+  max-width: 1100px;
+  margin: 3rem auto 0;
+  font-size: 1.05rem;
+  line-height: 2;
+  color: rgba(255,255,255,0.7);
+  column-count: 2;
+  column-gap: 3rem;
+  text-align: left;
+}
+
+.idol-text p + p { margin-top: 1.5rem; }
+
+/* ============ GLOBAL IMPACT ============ */
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto 3rem;
+}
+
+.impact-card {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: var(--cream);
+  border: 1px solid var(--cream-dark);
+}
+
+.impact-number {
+  font-family: 'EB Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--pink);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.impact-label {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  line-height: 1.6;
+}
+
+.impact-content {
+  max-width: 1100px;
+  margin: 3rem auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  text-align: left;
+}
+
+.impact-text {
+  font-size: 1rem;
+  line-height: 2;
+  color: var(--ink-soft);
+}
+
+.impact-text p + p { margin-top: 1.5rem; }
+
+.impact-list {
+  list-style: none;
+}
+
+.impact-list li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--cream-dark);
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  display: flex;
+  gap: 0.75rem;
+}
+
+.impact-list li::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--pink);
+  margin-top: 0.7rem;
+  flex-shrink: 0;
+}
+
+/* ============ AWARDS ============ */
+.awards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.award-card {
+  padding: 1.5rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-left: 3px solid var(--gold);
+}
+
+.award-name {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 0.25rem;
+}
+
+.award-org {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ============ LEGACY ============ */
+.legacy-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.legacy-text {
+  font-size: 1.15rem;
+  line-height: 2.2;
+  color: rgba(255,255,255,0.75);
+}
+
+.legacy-text p + p { margin-top: 1.5rem; }
+
+.legacy-text strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.legacy-quote {
+  margin: 3rem 0;
+  padding: 2rem 2.5rem;
+  border-left: 2px solid var(--gold);
+  background: rgba(201, 168, 76, 0.04);
+}
+
+.legacy-quote blockquote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-style: italic;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.9);
+}
+
+/* ============ FOOTER ============ */
+.footer {
+  padding: 4rem 6vw;
+  background: var(--night);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-brand img {
+  height: 20px;
+  filter: brightness(0) invert(1);
+  opacity: 0.3;
+}
+
+.footer-note {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.05em;
+}
+
+.footer-right {
+  text-align: right;
+}
+
+.footer-fan {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 0.25rem;
+}
+
+.footer-date {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.15);
+}
+
+/* ============ FADE IN ============ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+  .concept-grid,
+  .members-grid,
+  .disco-singles,
+  .impact-content,
+  .idol-text { grid-template-columns: 1fr; column-count: 1; }
+  
+  .disco-books { grid-template-columns: 1fr 1fr; }
+  .idol-grid { grid-template-columns: 1fr; }
+  .impact-grid { grid-template-columns: 1fr 1fr; }
+  
+  .hero { padding: 3rem 5vw; }
+  .hero-meta { gap: 1.5rem; }
+  
+  .section-dark, .section-night, .section-cream { padding: 4rem 5vw; }
+}
+
+@media (max-width: 480px) {
+  .disco-books { grid-template-columns: 1fr; }
+  .impact-grid { grid-template-columns: 1fr; }
+  .hero-meta { flex-direction: column; gap: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-logo">
+    <img src="assets/logo_yoasobi.svg" alt="YOASOBI">
+  </div>
+  <div class="hero-tagline">Novel into Music · 小説を音楽にするユニット</div>
+  <h1 class="hero-title">
+    夜遊び<br>
+    <em>from page<br>to pulse.</em>
+  </h1>
+  <p class="hero-subtitle">小说化为音乐的二人组，从深夜开始的世界之旅</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">结成</div>
+      <div class="hero-meta-value">2019.10.01 · 东京</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">成员</div>
+      <div class="hero-meta-value">Ayase · 幾田莉拉 (ikura)</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">厂牌</div>
+      <div class="hero-meta-value">Echoes · Sony Music Japan</div>
+    </div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-label">粉丝名</div>
+      <div class="hero-meta-value">YOA'S (2025.10)</div>
+    </div>
+  </div>
+  <div class="hero-scroll"><span></span></div>
+</section>
+
+<section class="section-dark fade-in">
+  <div class="section-label">Concept · 概念</div>
+  <h2 class="section-title">把小说变成音乐，<br>而不是把小说唱出来</h2>
+  <div class="concept-grid">
+    <div class="concept-text">
+      <p>
+        <strong>YOASOBI（夜遊び）</strong>的团名源自日语「夜遊ぶ」，意为「在夜晚嬉戏」。Ayase 将两人的个人音乐事业定义为「白天的活动」，而 YOASOBI 则是属于夜晚的创作——在深夜的安静中，把文字世界的故事翻译成声音。
+      </p>
+      <p>
+        这不是一般意义上的「给小说写主题曲」。YOASOBI 的创作流程是：从 <strong>monogatary.com</strong>（Sony Music 旗下的小说投稿平台）或合作作家的短篇、信件、剧本甚至社交媒体帖子中提取叙事内核，由 Ayase 完成词曲编全部制作，ikura 以人声演绎故事中的情感。
+      </p>
+      <p>
+        如果一首歌的故事原型不是虚构作品，它就不会被归入 YOASOBI 的正式作品——这条纪律从结成第一天开始，至今从未被打破。
+      </p>
+    </div>
+    <div class="concept-quote">
+      <blockquote>
+        「每一首歌都是一篇小说的声音化。我们不是在写歌，我们是在给故事一个全新的形态——让读到这个故事的人，可以用耳朵重新经历一遍。」
+      </blockquote>
+      <cite>—— Ayase, YOASOBI</cite>
+    </div>
+  </div>
+</section>
+
+<section class="section-night fade-in">
+  <div class="section-label">Members · 成员</div>
+  <h2 class="section-title">昼の活動と夜の活動</h2>
+  <div class="members-grid">
+    <div class="member-card">
+      <div class="member-role">Songwriter · Producer</div>
+      <div class="member-name">Ayase</div>
+      <div class="member-name-jp">1994.04.04 · 山口県宇部市</div>
+      <div class="member-desc">
+        <p>高中时期开始乐队活动，解散后转向 Vocaloid 作曲。因胃溃疡住院期间在医院里用初音未来创作，在 Niconico 和 YouTube 积累人气——「Last Resort」是他的突破之作。加入 YOASOBI 之前，已是 Vocaloid 圈的代表性创作者之一。</p>
+        <p>Ayase 负责 YOASOBI 全部的词曲、编曲和制作。他深受 Vocaloid 音乐和 J-Pop 双重影响，这解释了 YOASOBI 音乐中那种独特的「快节奏 + 复杂结构」——既像 Vocaloid 曲的密集信息，又有流行乐的旋律钩子。</p>
+      </div>
+      <div class="member-stats">
+        <div class="member-stat"><span>前乐队</span><strong>Davinci</strong></div>
+        <div class="member-stat"><span>Vocaloid 出道</span><strong>2018</strong></div>
+        <div class="member-stat"><span>首次献声（YOASOBI）</span><strong>劇上 (2025)</strong></div>
+      </div>
+    </div>
+    <div class="member-card ikura">
+      <div class="member-role">Vocalist</div>
+      <div class="member-name">ikura</div>
+      <div class="member-name-jp">幾田りら · 2000.09.25 · 東京都</div>
+      <div class="member-desc">
+        <p>14岁开始街头吉他弹唱，16岁进入 Sony Music 的新人培训项目。作为本名「幾田莉拉」，她同时以独立创作歌手身份活动，发行了个人 EP《Rerise》和《Jukebox》。同时是不插电音乐组合 Plusonica 的成员（2017-2021）。</p>
+        <p>Ayase 在 Instagram 上听到 ikura 翻唱爱缪的《不听摇滚的你》后联系她——这段翻唱的质感让他确信找到了 YOASOBI 的声音。ikura 的嗓音干净、明亮、有穿透力，却能在演绎悲伤故事时展现出惊人的脆弱感。</p>
+      </div>
+      <div class="member-stats">
+        <div class="member-stat"><span>毕业院校</span><strong>日本大学音乐学科</strong></div>
+        <div class="member-stat"><span>个人出道</span><strong>2016 (Sony Lesson)</strong></div>
+        <div class="member-stat"><span>个人厂牌</span><strong>After School → SMEJ</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-dark fade-in">
+  <div class="section-label">Timeline · 历程</div>
+  <h2 class="section-title">从深夜到世界体育场</h2>
+  <div class="timeline-container">
+    <div class="timeline">
+    <div class="timeline-year">
+      <div class="timeline-year-label">2019</div>
+      <div class="timeline-events">
+        <div class="timeline-event"><strong>10月1日</strong>，YOASOBI 正式结成。Ayase 在 Instagram 上发现 ikura 翻唱的歌声，主动联系组建成二人组。</div>
+        <div class="timeline-event"><strong>12月15日</strong>，出道单曲<strong>「向夜晚奔去」</strong>（夜に駆ける）发行，基于星野舞夜的短篇小说《塔纳托斯的诱惑》。MV 一个月内播放破百万。</div>
+      </div>
+    </div>
+    <div class="timeline-year">
+      <div class="timeline-year-label">2020</div>
+      <div class="timeline-events">
+        <div class="timeline-event">新冠疫情期间「向夜晚奔去」在社交媒体爆发——ikura 在 THE FIRST TAKE 的演唱成为转折点。歌曲最终登顶 <span class="highlight">Billboard Japan Hot 100 年度冠军</span>，史上首张无实体发行的年度冠军单曲。</div>
+        <div class="timeline-event">连续发行「重现梦境」「春紫菀」「或许」「群青」「遥」五首单曲。12月31日，受邀追加出场 <span class="highlight">第71回NHK红白歌合战</span>——两人首次公开表演，也是红白歌合战史上首次无实体发行艺人登台。</div>
+      </div>
+    </div>
+    <div class="timeline-year">
+      <div class="timeline-year-label">2021</div>
+      <div class="timeline-events">
+        <div class="timeline-event">1月6日发行首张 EP <strong>《THE BOOK》</strong>，以「阅读CD」为概念的活页夹包装设计。Oricon 专辑榜第二。实体+数字双白金认证。</div>
+        <div class="timeline-event">为动画《BEASTARS》第二季创作 OP「怪物」与 ED「温柔的彗星」。《Time》杂志将「怪物」列入 <span class="highlight">2021年十大最佳歌曲第五位</span>——榜单上唯一日语作品。</div>
+        <div class="timeline-event">12月4-5日在 <span class="highlight">日本武道馆</span> 举办首次面对面演唱会。进入英语市场，发行英文版 EP《E-SIDE》。</div>
+      </div>
+    </div>
+    <div class="timeline-year">
+      <div class="timeline-year-label">2022</div>
+      <div class="timeline-events">
+        <div class="timeline-event">与四位直木奖获奖小说家（島本理生、辻村深月、宮部美幸、森绘都）合作出版短篇集 <strong>《はじめての》</strong>，并为每个故事创作歌曲。</div>
+        <div class="timeline-event"><strong>「祝福」</strong>（機動戦士ガンダム 水星の魔女 OP）发行，附赠官方 GUNPLA 的限定盘成为收藏经典。12月，首次在 <span class="highlight">海外演出</span>（Head in the Clouds 印尼站）。</div>
+      </div>
+    </div>
+    <div class="timeline-year">
+      <div class="timeline-year-label">2023</div>
+      <div class="timeline-events">
+        <div class="timeline-event">4月12日，<strong>「偶像」</strong>（アイドル，《我推的孩子》OP）发行。<span class="highlight">日本音乐史的分水岭</span>——Billboard Japan Hot 100 连续22周冠军、史上首支登顶 Billboard Global Excl. US 的日语歌曲、全球流媒体等效超10.1亿。</div>
+        <div class="timeline-event">第一次 Arena 巡演「电光石火」，14场演出吸引13万人。9月「勇者」（《葬送的芙莉蓮》OP）发行。11月，受邀为 <span class="highlight">Coldplay 东京演唱会</span>开场嘉宾。</div>
+        <div class="timeline-event">12月31日「偶像」登上 <span class="highlight">第74回NHK红白歌合战</span>，联合 Seventeen、乃木坂46、NewJeans、Stray Kids 等多组偶像共同表演。</div>
+      </div>
+    </div>
+    <div class="timeline-year">
+      <div class="timeline-year-label">2024</div>
+      <div class="timeline-events">
+        <div class="timeline-event">1月25日庆祝结成五周年。4月受邀出席 <span class="highlight">白宫国宴</span>（拜登接待岸田文雄），坐在两位领导人附近。同月与 Creative Artists Agency (CAA) 签约。</div>
+        <div class="timeline-event">登上 <span class="highlight">Coachella 2024</span> 和 <span class="highlight">Lollapalooza 2024</span>。10-11月举办首个巨蛋巡演「超现实」，覆盖东京巨蛋等场馆。</div>
+        <div class="timeline-event">9月加入新厂牌 <strong>Echoes</strong>（SMEJ 旗下）。10月「単色」（心之触碰。剧场版主题曲）发行。</div>
+      </div>
+    </div>
+    <div class="timeline-year">
+      <div class="timeline-year-label">2025</div>
+      <div class="timeline-events">
+        <div class="timeline-event">4月28日，<strong>「向夜晚奔去」</strong>获 RIAJ <span class="highlight">史上首支双钻石认证</span>（累计流媒体10亿次）。6月首次在伦敦温布利体育馆举行专场。</div>
+        <div class="timeline-event">「Watch me!」（Witch Watch OP）5月发行。10月2日，<strong>「劇上」</strong>发行——YOASOBI 史上首支 <span class="highlight">Ayase 参与演唱</span> 的歌曲，也是首次真人MV。成为 Shu Uemura 品牌大使、出演三星 Galaxy S25 Ultra 广告。</div>
+        <div class="timeline-event">10月1日六周年纪念直播上公布粉丝名为 <strong>「YOA'S」</strong>。与 Le Sserafim 合作「The Noise」。</div>
+      </div>
+    </div>
+    <div class="timeline-year">
+      <div class="timeline-year-label">2026</div>
+      <div class="timeline-events">
+        <div class="timeline-event">1月「肾上腺素」/「BABY」（《花ざかりの君たちへ》动画 OP/ED）发行。4月发行 <strong>《E-SIDE 4》</strong>。</div>
+        <div class="timeline-event">3月 Sony 总部举办「Into the World」空间音乐展览。6月26日即将发行 <strong>《THE BOOK For,》</strong>——The Book 系列的 <span class="highlight">最终章</span>（For = 4 = For you）。</div>
+        <div class="timeline-event">下半年启动 <span class="highlight">「Never Ending Stories」北美巡演</span>，随后是亚洲十城巨蛋巡回。</div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section class="section-dark" style="padding-top: 0;">
+  <div class="section-label">Discography · 唱片</div>
+  <h2 class="section-title">読むCD · The Reading CD</h2>
+  <div class="disco-books fade-in">
+    <div class="disco-book book-1">
+      <img src="assets/the-book.jpg" alt="The Book">
+      <div class="disco-book-overlay">
+        <div class="disco-book-year">2021 · Oricon #2 · 双白金</div>
+        <div class="disco-book-note">向夜晚奔去 / 怪物 / 群青</div>
+      </div>
+    </div>
+    <div class="disco-book book-2">
+      <img src="assets/the-book-2.jpg" alt="The Book 2">
+      <div class="disco-book-overlay">
+        <div class="disco-book-year">2021 · Oricon #2 · Billboard #1</div>
+        <div class="disco-book-note">再一点就好 / 情书 / 飞燕</div>
+      </div>
+    </div>
+    <div class="disco-book book-3">
+      <img src="assets/the-book-3.png" alt="The Book 3">
+      <div class="disco-book-overlay">
+        <div class="disco-book-year">2023 · Oricon #2 · Idol / 勇者</div>
+        <div class="disco-book-note">偶像 / 勇者 / 祝福</div>
+      </div>
+    </div>
+    <div class="disco-book book-4">
+      <img src="assets/the-book-for.png" alt="The Book For,">
+      <div class="disco-book-overlay">
+        <div class="disco-book-year">2026.06.26 · 最终章</div>
+        <div class="disco-book-note">For = 4 = For You</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="disco-singles-title fade-in">主要单曲一览</div>
+  <div class="disco-singles fade-in">
+    <div class="disco-single">
+      <div class="disco-single-num">01</div>
+      <div class="disco-single-name">向夜晚奔去<span class="jp">夜に駆ける</span></div>
+      <div class="disco-single-source">2019 · 10亿流媒体</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">02</div>
+      <div class="disco-single-name">重现梦境<span class="jp">あの夢をなぞって</span></div>
+      <div class="disco-single-source">2020</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">03</div>
+      <div class="disco-single-name">春紫菀<span class="jp">ハルジオン</span></div>
+      <div class="disco-single-source">2020</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">04</div>
+      <div class="disco-single-name">或许<span class="jp">たぶん</span></div>
+      <div class="disco-single-source">2020</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">05</div>
+      <div class="disco-single-name">群青<span class="jp">群青</span></div>
+      <div class="disco-single-source">2020 · Blue Period</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">06</div>
+      <div class="disco-single-name">遥<span class="jp">ハルカ</span></div>
+      <div class="disco-single-source">2020</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">07</div>
+      <div class="disco-single-name">怪物<span class="jp">怪物</span></div>
+      <div class="disco-single-source">2021 · BEASTARS OP</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">08</div>
+      <div class="disco-single-name">温柔的彗星<span class="jp">優しい彗星</span></div>
+      <div class="disco-single-source">2021 · BEASTARS ED</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">09</div>
+      <div class="disco-single-name">再一点就好<span class="jp">もう少しだけ</span></div>
+      <div class="disco-single-source">2021 · 闹钟电视</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">10</div>
+      <div class="disco-single-name">三原色<span class="jp">三原色</span></div>
+      <div class="disco-single-source">2021 · Ahamo CM</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">11</div>
+      <div class="disco-single-name">情书<span class="jp">ラブレター</span></div>
+      <div class="disco-single-source">2021</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">12</div>
+      <div class="disco-single-name">大正浪漫<span class="jp">大正浪漫</span></div>
+      <div class="disco-single-source">2021</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">13</div>
+      <div class="disco-single-name">飞燕<span class="jp">ツバメ</span></div>
+      <div class="disco-single-source">2021 · SDGs 主题曲</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">14</div>
+      <div class="disco-single-name">先生<span class="jp">ミスター</span></div>
+      <div class="disco-single-source">2022 · 島本理生</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">15</div>
+      <div class="disco-single-name">喜欢你<span class="jp">好きだ</span></div>
+      <div class="disco-single-source">2022 · 森绘都</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">16</div>
+      <div class="disco-single-name">祝福<span class="jp">祝福</span></div>
+      <div class="disco-single-source">2022 · 高达 水星魔女 OP</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">17</div>
+      <div class="disco-single-name">随波逐流<span class="jp">海のまにまに</span></div>
+      <div class="disco-single-source">2022 · 辻村深月</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">18</div>
+      <div class="disco-single-name">冒险<span class="jp">アドベンチャー</span></div>
+      <div class="disco-single-source">2023 · USJ 主题曲</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">19</div>
+      <div class="disco-single-name">Seventeen<span class="jp">セブンティーン</span></div>
+      <div class="disco-single-source">2023 · 宮部美幸</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">20</div>
+      <div class="disco-single-name">偶像<span class="jp">アイドル</span></div>
+      <div class="disco-single-source">2023 · 我推的孩子 OP</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">21</div>
+      <div class="disco-single-name">勇者<span class="jp">勇者</span></div>
+      <div class="disco-single-source">2023 · 葬送的芙莉蓮 OP</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">22</div>
+      <div class="disco-single-name">Biri-Biri<span class="jp">ビリビリ</span></div>
+      <div class="disco-single-source">2023 · 宝可梦 朱紫</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">23</div>
+      <div class="disco-single-name">Heart Beat<span class="jp">ハートビート</span></div>
+      <div class="disco-single-source">2023 · NHK 18祭</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">24</div>
+      <div class="disco-single-name">UNDEAD</div>
+      <div class="disco-single-source">2024 · 物語系列</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">25</div>
+      <div class="disco-single-name">站上舞台<span class="jp">舞台に立って</span></div>
+      <div class="disco-single-source">2024 · NHK巴黎奥运</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">26</div>
+      <div class="disco-single-name">单色<span class="jp">モノトーン</span></div>
+      <div class="disco-single-source">2024 · 心之触碰。</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">27</div>
+      <div class="disco-single-name">New Me</div>
+      <div class="disco-single-source">2024 · 文艺×小说比赛</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">28</div>
+      <div class="disco-single-name">Players<span class="jp">プレイヤー</span></div>
+      <div class="disco-single-source">2025 · PlayStation 30周年</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">29</div>
+      <div class="disco-single-name">Watch me!</div>
+      <div class="disco-single-source">2025 · Witch Watch OP</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">30</div>
+      <div class="disco-single-name">劇上<span class="jp">劇上</span></div>
+      <div class="disco-single-source">2025 · Ayase 首唱</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">31</div>
+      <div class="disco-single-name">肾上腺素<span class="jp">アドレナ</span></div>
+      <div class="disco-single-source">2026 · 花ざかり OP</div>
+    </div>
+    <div class="disco-single">
+      <div class="disco-single-num">32</div>
+      <div class="disco-single-name">BABY</div>
+      <div class="disco-single-source">2026 · 花ざかり ED</div>
+    </div>
+  </div>
+</section>
+
+<section class="idol-section fade-in">
+  <div class="section-label">Spotlight · 深度聚焦</div>
+  <h2 class="section-title" style="margin-bottom: 3rem;">「偶像」——一首歌如何改写日本音乐史</h2>
+  <div class="idol-grid">
+    <div class="idol-stat-card">
+      <div class="idol-number">22</div>
+      <div class="idol-label">Billboard Japan Hot 100 周冠军</div>
+    </div>
+    <div class="idol-stat-card">
+      <div class="idol-number">1st</div>
+      <div class="idol-label">首支登顶 Billboard Global Excl. US 的日语歌</div>
+    </div>
+    <div class="idol-stat-card">
+      <div class="idol-number" style="white-space: nowrap;">10.1亿</div>
+      <div class="idol-label">2023年 IFPI 全球等效流媒体</div>
+    </div>
+  </div>
+  <div class="idol-text">
+    <p>
+      「偶像」（アイドル）是 YOASOBI 的第20首单曲，2023年4月12日作为动画《我推的孩子》片头曲发行。歌曲基于漫画家赤坂明（《辉夜大小姐想让我告白》作者）撰写的短篇小说《45510》——一个关于偶像产业阴暗面的故事。
+    </p>
+    <p>
+      这首歌在商业上的成功是史无前例的：在日本 Oricon 合算单曲榜和 Billboard Japan Hot 100 双双登顶，后者以22周（非连续）冠军打破了 Official 髭男dism「Subtitle」此前13周的纪录。295天内获得 RIAJ 流媒体钻石认证——史上最快。
+    </p>
+    <p>
+      全球层面更为惊人。「偶像」在 Billboard Global 200 排名第七，在 <strong>Billboard Global Excl. US 登顶第一</strong>——这是日语歌曲史上的首次。MV 在35天内达到1亿次观看，创下日本艺人最快破亿纪录。IFPI 将「偶像」列为2023年全球第19畅销歌曲，等效流媒体收入达10.1亿次。
+    </p>
+    <p>
+      但「偶像」的意义超越了数据。它证明了日语流行音乐可以突破语言壁垒，不需要翻译成英语也能触达全球听众。这首歌的歌词本身就是一个关于偶像产业「表与里」的尖锐批判——用流行乐最甜美的外壳包裹最辛辣的内容。这种反差，正是 YOASOBI「小说化音乐」理念最极致的体现。
+    </p>
+  </div>
+</section>
+
+<section class="section-cream fade-in">
+  <div class="section-label">Global Reach · 全球影响</div>
+  <h2 class="section-title">不只是J-Pop的代表——<br>是2020年代的文化注脚</h2>
+  <div class="impact-grid">
+    <div class="impact-card">
+      <div class="impact-number">10亿+</div>
+      <div class="impact-label">「向夜晚奔去」RIAJ 累计流媒体<br>史上首支双钻石认证</div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-number">739万</div>
+      <div class="impact-label">YouTube 订阅数<br>65亿+ 总播放量</div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-number">#1</div>
+      <div class="impact-label">Spotify 日本艺人海外播放量<br>连续四年（2021-2024）</div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-number">白宫</div>
+      <div class="impact-label">2024年受邀出席日美国宴<br>坐在拜登-岸田附近</div>
+    </div>
+  </div>
+  <div class="impact-content">
+    <div class="impact-text">
+      <p>多家媒体将 YOASOBI 称为「2020年代J-Pop 的代表」和「令和时代的音乐符号」，这种评价并非夸张。在他们之前，日语音乐在海外的认知主要局限于动漫爱好者圈子；YOASOBI 通过「Idol」证明了一首日语歌可以在不翻译的情况下登顶全球榜单。</p>
+      <p>这种突破不是偶然的。从2021年的《E-SIDE》英文版 EP 开始系统性地进入英语市场，到2023年受邀为 Coldplay 东京开场，再到2024年登陆 Coachella 和 Lollapalooza 两大美国顶级音乐节——YOASOBI 的全球化路径是有意识、有节奏的战略执行。</p>
+    </div>
+    <div>
+      <ul class="impact-list">
+        <li>2024年4月与美国 CAA（Creative Artists Agency）签约，由CAA负责北美经纪事务</li>
+        <li>2025年成为 Shu Uemura（植村秀）品牌大使</li>
+        <li>出演三星 Galaxy S25 Ultra 广告</li>
+        <li>2024年被邀请参加白宫拜登-岸田国宴</li>
+        <li>连续受邀出演第71/72/74回NHK红白歌合战</li>
+        <li>「Yoru ni Kakeru」「Gunjo」「Idol」入选 Apple Music 2015-2025 五百大流媒体歌曲</li>
+        <li>Coldplay 东京演唱会开场嘉宾（2023年11月）</li>
+        <li>Billie Eilish 埼玉演唱会开场嘉宾（2025）</li>
+        <li>连续获 JASRAC 金奖（2024、2025，均为「偶像」）</li>
+        <li>第38届日本金唱片大奖——年度下载歌曲 & 年度流媒体歌曲（「偶像」）</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section-night fade-in">
+  <div class="section-label">Awards · 主要奖项</div>
+  <h2 class="section-title">荣誉一览</h2>
+  <div class="awards-grid">
+    <div class="award-card">
+      <div class="award-name">年度歌曲 · Yoru ni Kakeru</div>
+      <div class="award-org">MTV Video Music Awards Japan 2020</div>
+    </div>
+    <div class="award-card">
+      <div class="award-name">年度艺人</div>
+      <div class="award-org">MTV Video Music Awards Japan 2021</div>
+    </div>
+    <div class="award-card">
+      <div class="award-name">特别成就奖</div>
+      <div class="award-org">第63回日本唱片大奖 2021</div>
+    </div>
+    <div class="award-card">
+      <div class="award-name">年度歌曲 ×4（下载+流媒体）· Kaibutsu</div>
+      <div class="award-org">第36回日本金唱片大奖 2022</div>
+    </div>
+    <div class="award-card">
+      <div class="award-name">最佳动画MV · 年度歌曲 · Idol</div>
+      <div class="award-org">MTV Video Music Awards Japan 2023</div>
+    </div>
+    <div class="award-card">
+      <div class="award-name">年度歌曲（下载+流媒体）· Idol</div>
+      <div class="award-org">第38回日本金唱片大奖 2024</div>
+    </div>
+    <div class="award-card">
+      <div class="award-name">最佳动画歌曲 · Idol</div>
+      <div class="award-org">第8回 Crunchyroll Anime Awards 2024</div>
+    </div>
+    <div class="award-card">
+      <div class="award-name">JASRAC金奖 ×2（2024/2025）· Idol</div>
+      <div class="award-org">JASRAC Awards</div>
+    </div>
+    <div class="award-card">
+      <div class="award-name">全球日本Hit · 最佳动画歌曲 · 年度MV · 创作者年度歌曲</div>
+      <div class="award-org">Music Awards Japan 2025</div>
+    </div>
+    <div class="award-card">
+      <div class="award-name">特别奖 ×2 · The Book / The Book 2</div>
+      <div class="award-org">CD Shop Awards 2022/2023</div>
+    </div>
+  </div>
+</section>
+
+<section class="section-dark fade-in">
+  <div class="section-label">Legacy · 意义</div>
+  <h2 class="section-title">从夜遊び到 Never Ending Stories</h2>
+  <div class="legacy-content">
+    <div class="legacy-text">
+      <p>
+        YOASOBI 的出现不只是一个音乐组合的成功故事。它是一个关于 <strong>创作方法论如何重新定义音乐边界</strong> 的案例。「小说化为音乐」这个看似简单的概念，实际上改变了日本流行音乐的叙事方式——让歌曲不再只是情感的载体，而成为故事的容器。
+      </p>
+      <p>
+        Ayase 的作曲风格——快节奏、复杂的段落变化、Vocaloid 式的密集信息——与 ikura 温暖而有穿透力的嗓音形成了独特的化学反应。这种「高密度作曲 + 温暖人声」的组合在 J-Pop 中几乎没有先例。它既继承了 Vocaloid 音乐的基因（BPM 高、信息密度大、旋律跳跃），又突破了 Vocaloid 圈的封闭性。
+      </p>
+      <p>
+        「Idol」的全球成功证明了一件重要的事：语言的壁垒不是音乐传播的终极限制。当故事足够好、演绎足够有力，一首日语歌可以在洛杉矶的 Coachella 大舞台引发万人大合唱。YOASOBI 为后来者开辟了一条新的路径——不需要迎合英语市场，而是让世界来听日语歌。
+      </p>
+      <p>
+        2025年「劇上」的发行标志着另一个突破：<strong>Ayase 首次在 YOASOBI 的歌曲中演唱</strong>。这首歌是 YOASOBI 首次为真人电视剧创作主题曲，也是首次拍摄真人MV。Ayase 从幕后走向台前，意味着 YOASOBI 的「单元」概念正在扩展——它不再只是「作曲家+歌手」的二元结构，而是一个更灵活的创作共同体。
+      </p>
+      <p>
+        从2019年深夜的一条 Instagram 私信，到2026年即将发行的《THE BOOK For,》——The Book 系列的终结，也是一个篇章的完结。但「Never Ending Stories」巡演的命名暗示了一切：<strong>故事不会结束，因为夜遊び还在继续。</strong>
+      </p>
+    </div>
+    <div class="legacy-quote">
+      <blockquote>
+        夜遊び——在夜晚嬉戏。这是他们给自己起的名字。<br>
+        六年后的世界证明：最深夜的创作，也能抵达最广泛的听众。
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-brand">
+    <img src="assets/logo_yoasobi.svg" alt="YOASOBI">
+    <div class="footer-note">NOVEL INTO MUSIC · 小説を音楽にするユニット</div>
+  </div>
+  <div class="footer-right">
+    <div class="footer-fan">For the YOA'S</div>
+    <div class="footer-date">Compiled May 2026 · Data sourced from Wikipedia, Billboard Japan, RIAJ, Oricon</div>
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
