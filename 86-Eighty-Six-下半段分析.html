@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>86 — Eighty Six — · 下半段深度解析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Eczar:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Noto+Serif+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0f0f12;
+  --bg: #141418;
+  --bg-surface: #1c1c22;
+  --bg-elevated: #242430;
+  --bg-subtle: #2e2e38;
+  --gold: #c09a5c;
+  --gold-light: #d8bf88;
+  --gold-dim: #8a6e3a;
+  --crimson: #8c3030;
+  --crimson-light: #b84a4a;
+  --crimson-bright: #d45858;
+  --ice: #7a9ab8;
+  --text: #ddd8cf;
+  --text-secondary: #9a958c;
+  --text-muted: #6a655c;
+  --text-faint: #4a4742;
+  --border: #2a2a30;
+  --border-light: #353540;
+  --font-display: 'Eczar', 'Noto Serif JP', serif;
+  --font-body: 'Source Serif 4', 'Noto Serif JP', serif;
+  --font-jp: 'Noto Serif JP', serif;
+  --max-width: 720px;
+  --wide-width: 1100px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-deep);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
+}
+::selection { background: var(--gold-dim); color: var(--text); }
+
+/* === HERO === */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 45%, rgba(140,48,48,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 30% 60%, rgba(192,154,92,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 2rem;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 10vw, 8rem);
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.hero-subtitle {
+  font-family: var(--font-jp);
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-weight: 300;
+  color: var(--text-muted);
+  letter-spacing: 0.15em;
+  margin-bottom: 2.5rem;
+}
+.hero-divider {
+  width: 60px; height: 1px;
+  background: var(--gold);
+  margin: 0 auto 2.5rem;
+}
+.hero-description {
+  max-width: 540px;
+  font-size: 1rem;
+  line-height: 2;
+  color: var(--text-secondary);
+  font-weight: 300;
+}
+.hero-meta {
+  margin-top: 4rem;
+  display: flex;
+  gap: 3rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.hero-meta span { display: flex; flex-direction: column; gap: 0.3rem; align-items: center; }
+.hero-meta .label { color: var(--text-muted); font-size: 0.68rem; }
+
+/* === NAV === */
+.nav-sections {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(20,20,24,0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: var(--wide-width);
+  margin: 0 auto; padding: 0 2rem;
+  display: flex; align-items: center; justify-content: center;
+  gap: 0;
+  overflow-x: auto; scrollbar-width: none;
+}
+.nav-inner::-webkit-scrollbar { display: none; }
+.nav-inner a {
+  display: block; padding: 0.9rem 1.2rem;
+  font-size: 0.72rem;
+  font-family: var(--font-jp);
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-decoration: none; white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all 0.25s ease;
+}
+.nav-inner a:hover { color: var(--gold); border-bottom-color: var(--gold-dim); }
+
+/* === MAIN CONTENT === */
+.content { max-width: var(--wide-width); margin: 0 auto; padding: 0 2rem; }
+.section { padding: 5rem 0; border-bottom: 1px solid var(--border); }
+.section:last-child { border-bottom: none; }
+.section-label {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1rem; text-align: center;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700; line-height: 1.15;
+  color: var(--text); margin-bottom: 0.6rem; text-align: center;
+}
+.section-subtitle {
+  font-family: var(--font-jp);
+  font-size: 0.95rem;
+  color: var(--text-muted); margin-bottom: 2.5rem;
+  font-weight: 300; text-align: center;
+}
+.prose {
+  max-width: var(--max-width);
+  margin-left: auto; margin-right: auto;
+  font-size: 1.02rem; line-height: 1.9;
+  color: var(--text-secondary);
+}
+.prose p { margin-bottom: 1.3rem; }
+.prose p:last-child { margin-bottom: 0; }
+.highlight { color: var(--gold-light); font-weight: 500; }
+.highlight-crimson { color: var(--crimson-light); font-weight: 500; }
+
+/* === BLOCKQUOTE === */
+.pull-quote {
+  margin: 3rem auto; padding: 2rem;
+  border-left: 2px solid var(--gold);
+  font-family: var(--font-display);
+  font-size: 1.4rem; font-weight: 400; font-style: italic;
+  line-height: 1.6; color: var(--gold-light);
+  max-width: var(--max-width);
+}
+.quote-attr {
+  display: block; margin-top: 1rem;
+  font-family: var(--font-body);
+  font-size: 0.78rem; font-style: normal;
+  letter-spacing: 0.05em; color: var(--text-muted);
+}
+
+/* === CHARACTER CARDS === */
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem; margin-top: 2rem;
+  max-width: var(--wide-width);
+  margin-left: auto; margin-right: auto;
+}
+.char-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  padding: 2rem; position: relative;
+}
+.char-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: var(--gold);
+}
+.char-card.crimson::before { background: var(--crimson); }
+.char-card.ice::before { background: var(--ice); }
+.char-name {
+  font-family: var(--font-display);
+  font-size: 1.4rem; font-weight: 700;
+  color: var(--text); margin-bottom: 0.15rem;
+}
+.char-callsign {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1rem;
+}
+.char-card.crimson .char-callsign { color: var(--crimson-light); }
+.char-card.ice .char-callsign { color: var(--ice); }
+.char-desc { font-size: 0.9rem; line-height: 1.7; color: var(--text-secondary); }
+.char-meta {
+  margin-top: 1.2rem; padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.78rem; color: var(--text-muted);
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem;
+}
+.char-meta dt { display: inline; color: var(--text-faint); }
+.char-meta dd { display: inline; margin: 0; }
+
+/* === EPISODE TIMELINE === */
+.timeline {
+  position: relative; margin-top: 2.5rem;
+  max-width: 880px;
+  margin-left: auto; margin-right: auto;
+}
+.timeline::before {
+  content: ''; position: absolute;
+  left: 3.5rem; top: 0; bottom: 0;
+  width: 1px; background: var(--border-light);
+}
+.ep-item {
+  display: grid; grid-template-columns: 3.5rem 1fr;
+  gap: 1.5rem; margin-bottom: 2rem; position: relative;
+}
+.ep-num {
+  text-align: right; padding-top: 0.25rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem; font-weight: 700; color: var(--gold);
+}
+.ep-item::after {
+  content: ''; position: absolute;
+  left: calc(3.5rem + 1px); top: 0.65rem;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold);
+  transform: translateX(-50%);
+}
+.ep-item.climax::after {
+  background: var(--crimson-bright);
+  box-shadow: 0 0 8px var(--crimson);
+  width: 9px; height: 9px;
+}
+.ep-item.climax .ep-num { color: var(--crimson-bright); }
+.ep-content { padding-bottom: 1.5rem; }
+.ep-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem; font-weight: 600;
+  color: var(--text); margin-bottom: 0.5rem;
+}
+.ep-title small {
+  font-weight: 400; color: var(--text-muted);
+  margin-left: 0.5rem; font-size: 0.85rem;
+}
+.ep-summary { font-size: 0.88rem; line-height: 1.7; color: var(--text-secondary); }
+.ep-header {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gold-dim);
+  margin: 3rem 0 2rem; padding-left: 5rem;
+}
+.ep-header:first-child { margin-top: 0; }
+
+/* === THEMES GRID === */
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem; margin-top: 2rem;
+  max-width: var(--wide-width);
+  margin-left: auto; margin-right: auto;
+}
+.theme-card {
+  padding: 2rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+}
+.theme-num {
+  font-family: var(--font-display);
+  font-size: 3rem; font-weight: 800;
+  color: var(--bg-subtle); line-height: 1; margin-bottom: 0.8rem;
+}
+.theme-name {
+  font-family: var(--font-display);
+  font-size: 1.2rem; font-weight: 600;
+  color: var(--gold-light); margin-bottom: 0.8rem;
+}
+.theme-body { font-size: 0.9rem; line-height: 1.75; color: var(--text-secondary); }
+
+/* === RELATIONSHIP DIAGRAM === */
+.relation-section {
+  margin-top: 2.5rem;
+  max-width: 720px;
+  margin-left: auto; margin-right: auto;
+}
+.relation-group { margin-bottom: 2.5rem; }
+.relation-group-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold);
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.2rem; text-align: center;
+}
+.relation-list { list-style: none; }
+.relation-item {
+  display: grid;
+  grid-template-columns: minmax(120px, 150px) 24px 1fr;
+  align-items: start; gap: 0 0.8rem;
+  font-size: 0.88rem; padding: 0.6rem 0;
+}
+.relation-from { color: var(--text); font-weight: 500; text-align: right; }
+.relation-arrow { color: var(--gold); text-align: center; }
+.relation-to { color: var(--text-secondary); }
+.relation-note { color: var(--text-muted); font-size: 0.78rem; display: block; }
+
+/* === WIDE BANNER === */
+.wide-banner {
+  margin: 3rem auto; padding: 3.5rem 4rem;
+  background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-elevated) 100%);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: auto 1.5fr;
+  gap: 3rem; align-items: center;
+  max-width: 880px;
+}
+.banner-stat {
+  font-family: var(--font-display);
+  font-size: 5rem; font-weight: 800;
+  color: var(--crimson-light); line-height: 1;
+}
+.banner-stat-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--text-muted); margin-top: 0.5rem; text-align: center;
+}
+.banner-text { font-size: 0.95rem; line-height: 1.85; color: var(--text-secondary); }
+
+/* === VERDICT STATS === */
+.verdict-stats {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem; text-align: center;
+  max-width: 880px;
+  margin-left: auto; margin-right: auto;
+}
+.verdict-stat { padding: 1.5rem; background: var(--bg-surface); border: 1px solid var(--border); }
+.verdict-stat-num { font-family: var(--font-display); font-size: 2.4rem; font-weight: 800; line-height: 1; }
+.verdict-stat-num.gold { color: var(--gold); }
+.verdict-stat-num.crimson { color: var(--crimson-light); }
+.verdict-stat-num.light { color: var(--text); }
+.verdict-stat-num.ice { color: var(--ice); }
+.verdict-stat-label { font-size: 0.72rem; letter-spacing: 0.1em; color: var(--text-muted); margin-top: 0.5rem; }
+
+/* === H3 IN FREDERICA SECTION === */
+.kiriya-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem; color: var(--crimson-light);
+  margin: 3rem auto 1.2rem;
+  max-width: var(--max-width); text-align: center;
+}
+
+/* === FOOTER === */
+.footer {
+  padding: 4rem 2rem; text-align: center;
+  color: var(--text-faint);
+  font-size: 0.75rem; letter-spacing: 0.1em;
+}
+.footer-line { width: 40px; height: 1px; background: var(--border-light); margin: 0 auto 1.5rem; }
+.footer-credit { margin-top: 0.5rem; color: var(--text-faint); font-size: 0.68rem; }
+
+/* === ANIMATIONS === */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.section { animation: fadeInUp 0.6s ease both; }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .hero-meta { flex-direction: column; gap: 1.5rem; }
+  .wide-banner { grid-template-columns: 1fr; padding: 2.5rem; margin: 2rem auto; }
+  .ep-item { grid-template-columns: 2.5rem 1fr; gap: 1rem; }
+  .timeline::before { left: 2.5rem; }
+  .ep-header { padding-left: 4rem; }
+  .relation-item { grid-template-columns: minmax(80px, 120px) 20px 1fr; }
+  .content { padding: 0 1.2rem; }
+  .pull-quote { margin-left: 1.5rem; margin-right: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ====== HERO ====== -->
+<header class="hero">
+  <div class="hero-label">86 — Eighty Six — · Part II · Deep Analysis</div>
+  <h1 class="hero-title">86</h1>
+  <p class="hero-subtitle">不存在的战区 · 下半段深度解析</p>
+  <div class="hero-divider"></div>
+  <p class="hero-description">
+    从共和国的废墟到帝国的余烬——当「送葬人」在新世界醒来，当他遇见末代女皇与她的骑士，关于活着、记忆与救赎的故事才真正开始。
+  </p>
+  <div class="hero-meta">
+    <span class="label">原作</span><span>安里アサト / 白实</span>
+    <span class="label">动画制作</span><span>A-1 Pictures</span>
+    <span class="label">Episodes 12–23</span><span>2021.10 — 2022.03</span>
+    <span class="label">音乐</span><span>泽野弘之 / 山本康太</span>
+  </div>
+</header>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-sections">
+  <div class="nav-inner">
+    <a href="#overview">概览</a>
+    <a href="#shin">辛的弧光</a>
+    <a href="#frederica">芙蕾德利卡</a>
+    <a href="#empire">帝国与联邦</a>
+    <a href="#characters">角色群像</a>
+    <a href="#episodes">篇章梳理</a>
+    <a href="#themes">主题解析</a>
+    <a href="#relations">关系图谱</a>
+    <a href="#verdict">总评</a>
+  </div>
+</nav>
+
+<!-- ====== MAIN CONTENT ====== -->
+<main class="content">
+
+<!-- OVERVIEW -->
+<section id="overview" class="section">
+  <div class="section-label">I · Overview</div>
+  <h2 class="section-title">当「送葬人」在新世界醒来</h2>
+  <p class="section-subtitle">Part 2 — 从废墟到重生的12话叙事弧线</p>
+  <div class="prose">
+    <p>「86—Eighty Six—」的下半段（第12~23话）是整部动画<span class="highlight">情感密度最高、叙事跨度最大</span>的篇章。Part 1 用整整11话完成了共和国篇——从蕾娜与辛相遇到先锋中队在边境消散——而 Part 2 则彻底翻转了舞台：从共和国的封闭世界走向<span class="highlight">吉阿德联邦</span>，从单一视角扩展为多线交织，从种族迫害的控诉转向更深层的存在主义拷问。</p>
+    <p>这12话覆盖了轻小说第2~3卷「<span class="highlight-crimson">Run Through the Battlefront</span>」的核心内容。五条幸存的灵魂——辛、莱登、赛欧、安琪、可蕾娜——在联邦找到了暂时的庇护。然而，战争的创伤远比他们想象的深。他们遇到的不只是新朋友恩斯特和芙蕾德利卡，还有来自旧帝国的幽灵：一个名叫<span class="highlight">基利亚（キリヤ）</span>的牧羊人，以及站在他背后的、整部动画最具野心的军械——<span class="highlight-crimson">魔炮</span>。</p>
+    <p>如果说 Part 1 的主题是「被剥夺人权的人如何挣扎求存」，那么 Part 2 的核心问题变成了更残酷的追问：<span class="highlight">一个只知道战斗的灵魂，在没有需要杀戮的敌人时，要如何证明自己有资格活下去？</span></p>
+  </div>
+</section>
+
+<!-- SHIN'S ARC -->
+<section id="shin" class="section">
+  <div class="section-label">II · Shin's Arc</div>
+  <h2 class="section-title">辛的弧光：从「送葬人」到找到活下去的理由</h2>
+  <p class="section-subtitle">シンエイ・ノウゼン / Undertaker → 独立机动部队队长</p>
+  <div class="prose">
+    <p>辛（Shinei Nouzen / シン）是 Part 2 中变化最为剧烈、也最为令人心碎的角色。Part 1 结束时，他在击败哥哥修雷的牧羊人形态后，失去了支撑他活下去的核心动力——<span class="highlight-crimson">向哥哥赎罪并被其了结</span>。这个动机一旦消解，辛便陷入了一个深刻的存在危机。</p>
+    <p>在联邦的日子里，辛表面上在适应新生活——交友（尤金）、读书、享受和平——但内心的空洞越来越明显。芙蕾德利卡用她的皇族异能看到了辛战斗时的真实状态：他不是在保护同伴，而是在<span class="highlight">沉溺于杀戮的快感</span>——这与基利亚（Kiriya）堕落为牧羊人前的状态如出一辙。这是 Part 2 最精妙的叙事对照：辛和基利亚，同属诺赞家血脉，同样被战争扭曲，同样在深渊边缘。</p>
+  </div>
+  <div class="pull-quote">
+    「自从那次濒死体验之后，我就再也没有感受过任何欲望了……我不觉得自己还活着。」
+    <span class="quote-attr">—— 辛，第20话「死ぬまで一緒に / Together Unto Death」</span>
+  </div>
+  <div class="prose">
+    <p>这段独白是整部动画最脆弱的时刻之一。辛不是在故作深沉——他的创伤是如此彻底，以至于连「想要什么」的能力都被剥夺了。莱登（Raiden）在第20话中警告他：这种不要命的战斗方式会把所有人都拖下水。安琪在战斗中不得不开枪打他的机甲来阻止他陷入杀红眼的状态。<span class="highlight-crimson">辛正在变成一个没有刹车的人肉武器。</span></p>
+    <p>转折点发生在第22话「シン / Shin」。在魔炮爆炸后，辛昏倒在共和国领地，偶遇了正在指挥残兵的蕾娜。蕾娜<span class="highlight">没有认出辛</span>——她只是在例行询问一个联邦军官为什么出现在这里。但她接下来的话改变了一切：她讲述自己之所以留在共和国战斗的原因，是因为先锋中队给了她启发。她想活下来，是为了<span class="highlight-crimson">有朝一日能追上辛和所有人</span>。</p>
+    <p>这个瞬间的叙事精妙在于：蕾娜的言语不是对辛的呼唤——她甚至不知道自己在对谁说话。但她的存在本身就是答案。<span class="highlight">芙蕾德利卡在事后点破：「见到蕾娜之后，你终于找到了活下去的理由。」</span>这不是廉价的一见钟情桥段——而是一个已经忘记如何渴望的灵魂，被另一个灵魂的光芒重新点燃。</p>
+  </div>
+  <div class="pull-quote">
+    辛在联邦纪念碑前留下修雷的名牌，转身走向未来。他不再为亡者而活，而是为了生者而战。
+    <span class="quote-attr">—— 第23话「ハンドラー・ワン / Handler One」</span>
+  </div>
+</section>
+
+<!-- FREDERICA -->
+<section id="frederica" class="section">
+  <div class="section-label">III · Frederica &amp; Kiriya</div>
+  <h2 class="section-title">芙蕾德利卡与她的骑士：末代女皇的赎罪之旅</h2>
+  <p class="section-subtitle">アウグスタ・フレデリカ・アデルアドラー → 芙蕾德利卡·罗森佛特</p>
+  <div class="prose">
+    <p>芙蕾德利卡是 Part 2 引入的核心角色，也是整部动画中最复杂的人物之一。表面上，她是恩斯特收养的一个10岁女孩，天真、直言不讳、偶尔有些惹人嫌。但她的真实身份是<span class="highlight-crimson">奥古斯塔·芙蕾德利卡·阿德尔-阿德勒（Augusta Frederica Adel-Adler）</span>——吉阿德帝国皇族唯一的幸存者，旧帝国的末代女皇。</p>
+    <p>阿德勒皇族拥有一种特殊能力：<span class="highlight">可以看到所接触之人的过去和现在</span>。这既是恩赐也是诅咒——芙蕾德利卡被迫目睹了所有她遇见之人的创伤记忆，包括辛杀死修雷的那一幕。她选择跟随辛去前线，名义上是作为诺德licht中队的「队宠」（mascot），实际上有着更深的目的：<span class="highlight-crimson">请求辛帮助她解放她的骑士——基利亚</span>。</p>
+  </div>
+  <div class="pull-quote">
+    「她亲眼看到了辛击败并解放修雷脱离军的的全过程——于是她请求辛也帮她的骑士做同样的事。」
+    <span class="quote-attr">—— Wikipedia 角色介绍</span>
+  </div>
+  <div class="prose">
+    <p>芙蕾德利卡的角色设计极为精妙。她是旧帝国的皇族，但她选择了叛逃——因为帝国的战争暴行让她无法容忍。她伪造了自己的死亡以逃脱联邦军的视线（恩斯特随后收养了她），但这一「死亡」直接导致了她的骑士<span class="highlight-crimson">基利亚自愿融入军团</span>成为牧羊人。芙蕾德利卡身上承载着一种深重的道德困境：「我的存活导致了更多人的死亡，我的叛逃杀死了最忠实的人。」</p>
+    <p>在第20话中，芙蕾德利卡向辛坦露了一个令人心碎的秘密：和辛一样，<span class="highlight">她也害怕失去目标感</span>。她曾欺骗自己说，解放基利亚是她活下去的意义——但她知道这只是另一个逃避。她劝辛不要害怕未来的不确定性，因为有朋友在身边。然而这番话也像是在说服自己。</p>
+  </div>
+
+  <div class="kiriya-title">基利亚（Kiriya）—— 被遗忘的骑士</div>
+  <div class="prose">
+    <p><span class="highlight">基利亚·诺赞（キリヤ・ノウゼン）</span>是 Part 2 的核心反派、也是整部剧最具悲剧色彩的角色之一。他是诺赞家（Nouzen clan）的后代，是辛的远亲，也是芙蕾德利卡的帝国骑士。</p>
+    <p>基利亚的故事是一个关于<span class="highlight-crimson">忠诚如何被扭曲为疯狂</span>的警示。当帝国向邻国宣战后，民众揭竿而起反抗皇族。军队被设计用来对抗外部敌人而非国内叛乱，皇族只能依赖私人卫队。基利亚在保护芙蕾德利卡的过程中，与叛军的无数战斗中渐渐失去理智——他杀的人太多了，多到自己都记不清。当芙蕾德利卡伪造死亡消息传来时，他已经彻底崩溃，<span class="highlight-crimson">自愿被军团（Legion）捕获并改造成牧羊人「苍骑士」（Pale Rider）</span>。</p>
+    <p>成为牧羊人后的基利亚，控制着<span class="highlight">魔炮（Morpho）</span>——一门拥有超远射程的巨型电磁轨道炮，是军团最具毁灭性的武器。魔炮可以打击任何盟国首都，联邦被迫派遣诺德licht中队执行深入打击任务，试图在其修复前将其摧毁。</p>
+    <p>基利亚的命运在第21话「もうこれしか / All That's Left」达到高潮。辛独自追击基利亚，在弹药耗尽、只剩最后一发炮弹的情况下，得到了来自未知方向的远程炮火支援（暗示来自蕾娜）。关键时刻，芙蕾德利卡冲上战场向基利亚恳求停手，但基利亚的疯狂太深。芙蕾德利卡做出了最后的选择——<span class="highlight-crimson">将枪口对准自己</span>。这一震动终于穿透了牧羊人的程序，基利亚本能地冲向保护芙蕾德利卡，为辛创造了零距离射击的空档。辛摧毁了基利亚的核心。</p>
+  </div>
+  <div class="pull-quote">
+    芙蕾德利卡的幻觉中，基利亚将她的安全托付给了辛，随后在修雷的引领下走向彼岸。骑士终于卸下铠甲。
+    <span class="quote-attr">—— 第21话，基利亚之死</span>
+  </div>
+</section>
+
+<!-- EMPIRE -->
+<section id="empire" class="section">
+  <div class="section-label">IV · The World</div>
+  <h2 class="section-title">帝国、联邦与战争的遗产</h2>
+  <p class="section-subtitle">吉阿德帝国 → 吉阿德联邦 · 政体更迭与道德灰度</p>
+  <div class="prose">
+    <p>Part 2 将故事舞台从圣玛格诺利亚共和国（Republic of San Magnolia）扩展至<span class="highlight">吉阿德联邦（Giad Federacy）</span>——旧吉阿德帝国（Empire of Giad）的继承国。这一世界构建的扩展不仅仅是地理层面的，更是政治和道德层面的：它迫使观众重新审视「谁是敌人、谁是对的」这一简单二元结构。</p>
+    <p><span class="highlight-crimson">旧帝国</span>并非一个纯粹的邪恶政权。从叙事结构上看，帝国的设定更像一战后的德国——它有着自己的贵族传统、军事荣耀和文化根基。真正的问题出在帝国将自身打造成了战争机器，而当内部革命爆发时，军团（Legion）的自动化本质意味着帝国无法关闭自己的武器。帝国的覆灭不是因为外部征服，而是因为<span class="highlight-crimson">自己创造的怪物反噬了创造者</span>。</p>
+    <p><span class="highlight">联邦</span>是推翻帝国后建立的新政权，由临时总统恩斯特·齐默尔曼领导。联邦在表面上是一个进步、包容的国家——没有种族歧视，公民平等，接纳外来者。但联邦也有自己的道德困境：当军事分析师要求将辛和他的朋友们再次送上战场时（他们清楚这可能是自杀任务），恩斯特无力阻止。格雷特上校对这一决定的愤怒——「你们在把孩子送死」——代表了联邦内部的良知，但这种良知在战争压力下不断被压服。</p>
+  </div>
+  <div class="wide-banner">
+    <div>
+      <div class="banner-stat">5</div>
+      <div class="banner-stat-label">先锋中队幸存者</div>
+    </div>
+    <div class="banner-text">辛、莱登、赛欧、安琪、可蕾娜——五个人从共和国的绞肉机中活着走出来。他们被恩斯特收养为兄弟姐妹，进入军官学校，加入诺德licht中队（Nordlicht Squadron），驾驶联邦改良型机甲「雷金莱夫」（Reginleif）。在击败基利亚后，他们被编入新成立的「第86打击群」（Eighty-Sixth Strike Package），由蕾娜指挥——这标志着共和国与联邦的军事力量终于汇流。</div>
+  </div>
+  <div class="prose">
+    <p>Part 2 的世界观构建还揭示了一个令人不寒而栗的真相：军团并非简单地按程序执行「消灭人类」的指令。它们<span class="highlight-crimson">复制了战场上被杀之人的大脑</span>，创造出「黑羊」（Black Sheep）和「牧羊人」（Shepherd）——后者拥有完整的战术智慧，甚至能进行战略级别的欺骗行动。军团最高指挥官「<span class="highlight">无面（No Face / ノーフェイス）</span>」的身份在 Part 2 末尾被揭示，正是蕾娜的父亲瓦茨拉夫·米利杰——这为 Part 3 埋下了最大的伏笔。</p>
+  </div>
+</section>
+
+<!-- CHARACTERS -->
+<section id="characters" class="section">
+  <div class="section-label">V · Characters</div>
+  <h2 class="section-title">角色群像</h2>
+  <p class="section-subtitle">Part 2 中出场的核心与重要角色</p>
+  <div class="character-grid">
+    <div class="char-card">
+      <div class="char-name">辛（シン / Shin）</div>
+      <div class="char-callsign">Undertaker · 送葬人</div>
+      <div class="char-desc">先锋中队队长，16岁的86老兵。拥有「听见死者之声」的特殊能力。Part 2 中经历了从失去生存意义到在蕾娜身上重新找到活下去理由的弧光。与基利亚的相似性是他最大的恐惧。</div>
+      <dl class="char-meta"><dt>声优</dt><dd>千叶翔也</dd><dt>年龄</dt><dd>16</dd><dt>阵营</dt><dd>86 → 联邦</dd></dl>
+    </div>
+    <div class="char-card">
+      <div class="char-name">芙蕾德利卡（Frederica）</div>
+      <div class="char-callsign">Augusta Frederica Adel-Adler · 末代女皇</div>
+      <div class="char-desc">10岁的帝国皇族唯一幸存者。拥有窥视他人过去与现在的皇族异能。伪装身份为恩斯特的养女，以「队宠」身份跟随辛的部队。核心动机是解放她的骑士基利亚。</div>
+      <dl class="char-meta"><dt>声优</dt><dd>久野美咲</dd><dt>年龄</dt><dd>10</dd><dt>身份</dt><dd>帝国末代女皇</dd></dl>
+    </div>
+    <div class="char-card crimson">
+      <div class="char-name">基利亚（キリヤ / Kiriya）</div>
+      <div class="char-callsign">Pale Rider · 芙蕾德利卡的骑士</div>
+      <div class="char-desc">诺赞家族后裔，辛的远亲，芙蕾德利卡的帝国骑士。在帝国革命中保护皇族时精神崩溃，在得知芙蕾德利卡「死亡」后自愿融入军团成为牧羊人。控制着终极武器「魔炮」（Morpho）。</div>
+      <dl class="char-meta"><dt>声优</dt><dd>上村祐翔</dd><dt>身份</dt><dd>牧羊人 · Pale Rider</dd><dt>武器</dt><dd>Morpho 电磁轨道炮</dd></dl>
+    </div>
+    <div class="char-card ice">
+      <div class="char-name">蕾娜（Lena / 芙拉蒂蕾娜·米利杰）</div>
+      <div class="char-callsign">Handler One · 白银的指挥官</div>
+      <div class="char-desc">共和国贵族出身的女军官，16岁少校。Part 2 中戏份较少但关键时刻决定一切：在共和国沦陷后组织86残兵进行最后的抵抗，远程炮火支援辛的战斗。最终转移至联邦，成为第86打击群指挥官。</div>
+      <dl class="char-meta"><dt>声优</dt><dd>长谷川育美</dd><dt>年龄</dt><dd>16</dd><dt>阵营</dt><dd>共和国 → 联邦</dd></dl>
+    </div>
+    <div class="char-card">
+      <div class="char-name">恩斯特·齐默尔曼</div>
+      <div class="char-callsign">Ernst Zimmerman · 联邦临时总统</div>
+      <div class="char-desc">推翻帝国后建立的联邦共和国临时总统，一个心怀理想主义的善良老人。对帝国皇族被全数处死怀有深切遗憾，收养了芙蕾德利卡和先锋中队五名幸存者为养子女。私下发誓：如果孩子们回不来，他宁可毁灭这个世界。</div>
+      <dl class="char-meta"><dt>声优</dt><dd>内山夕実</dd><dt>身份</dt><dd>联邦临时总统</dd></dl>
+    </div>
+    <div class="char-card">
+      <div class="char-name">格雷特·文策尔</div>
+      <div class="char-callsign">Grethe Wenzel · 「蜘蛛女」</div>
+      <div class="char-desc">诺德licht中队（Nordlicht）中校指挥官，因对雷金莱夫机甲的执念得名「蜘蛛女」。强烈反对未成年士兵上战场，多次试图帮助辛和他的朋友们走出战争创伤。她的未婚夫被军团所杀。后期成为第86打击群的联邦军方联络人。</div>
+      <dl class="char-meta"><dt>声优</dt><dd>植田佳奈</dd><dt>军衔</dt><dd>中校</dd></dl>
+    </div>
+    <div class="char-card crimson">
+      <div class="char-name">尤金·兰兹</div>
+      <div class="char-callsign">Eugene Rantz · 辛的第一个朋友</div>
+      <div class="char-desc">联邦军官，在辛获得公民身份后交到的第一个朋友。参军是为了给妹妹妮娜更好的生活。在一次军团进攻中重伤，由辛亲手安乐死。他的死是 Part 2 中辛最沉重的打击之一。</div>
+      <dl class="char-meta"><dt>声优</dt><dd>田丸篤志</dd><dt>关系</dt><dd>妮娜的哥哥</dd></dl>
+    </div>
+    <div class="char-card crimson">
+      <div class="char-name">无面（No Face / ノーフェイス）</div>
+      <div class="char-callsign">军团最高指挥官 · 瓦茨拉夫·米利杰</div>
+      <div class="char-desc">Part 2 的终极阴影。身份为蕾娜已故的父亲——瓦茨拉夫·米利杰，共和国第一个为86族发声的军官。被军团杀死后大脑被复制，成为了军团的最高指挥官。他命令基利亚撤退，操控着魔炮的战略部署。这个真相为后续剧情埋下最大伏笔。</div>
+      <dl class="char-meta"><dt>真实身份</dt><dd>蕾娜之父</dd><dt>身份揭露</dt><dd>Part 2 末尾</dd></dl>
+    </div>
+  </div>
+</section>
+
+<!-- EPISODES -->
+<section id="episodes" class="section">
+  <div class="section-label">VI · Episode Guide</div>
+  <h2 class="section-title">篇章梳理：12话逐话解析</h2>
+  <p class="section-subtitle">Episodes 12–23 · 每个关键节点标注叙事功能</p>
+  <div class="timeline">
+
+    <div class="ep-header">Part 2 · 第一幕 · 新世界</div>
+
+    <div class="ep-item">
+      <div class="ep-num">12</div>
+      <div class="ep-content">
+        <div class="ep-title">ようこそ <small>Welcome</small></div>
+        <div class="ep-summary">辛从濒死幻觉中醒来，发现五人已被吉阿德联邦救下。恩斯特给予他们公民身份、邀请他们住进总统府，并介绍了芙蕾德利卡。辛收到联邦归还的修雷名牌，内心波澜——<span style="color:var(--gold)">新身份 vs 旧创伤</span>的冲突种子。蕾娜在共和国线被降职但仍以顶级管制官身份战斗。</div>
+      </div>
+    </div>
+    <div class="ep-item">
+      <div class="ep-num">13</div>
+      <div class="ep-content">
+        <div class="ep-title">今更そんなこと <small>It's Too Late</small></div>
+        <div class="ep-summary">一个月的平民生活后，五人得出结论：他们不属于和平，他们的归宿在战场上。恩斯特无法阻止。芙蕾德利卡揭露真实身份为帝国末代女皇，要求随军——她的目的是请辛解放她的骑士基利亚。<span style="color:var(--crimson-light)">核心任务线在此刻建立。</span></div>
+      </div>
+    </div>
+    <div class="ep-item">
+      <div class="ep-num">14</div>
+      <div class="ep-content">
+        <div class="ep-title">よろしく <small>Glad to Be Here</small></div>
+        <div class="ep-summary">通过军官培训，分配至格雷特上校的诺德licht中队。联邦找到了他们损毁的机甲和 Fido（机器人伙伴）的核心——建造了新机体，并在前线竖立了辛收集的所有561个名字的纪念碑。辛重逢朋友尤金，但战后被迫安乐死重伤的尤金。<span style="color:var(--crimson-light)">第一次死亡打击。</span></div>
+      </div>
+    </div>
+
+    <div class="ep-header">Part 2 · 第二幕 · 风暴将至</div>
+
+    <div class="ep-item">
+      <div class="ep-num">15</div>
+      <div class="ep-content">
+        <div class="ep-title">おかえりなさい <small>Welcome Back</small></div>
+        <div class="ep-summary">军团预测的大规模攻势来临前，芙蕾德利卡向辛讲述基利亚的过去——帝国革命时，基利亚在保护皇族的战斗中精神崩溃，芙蕾德利卡伪造死亡逃离后，基利亚自愿融入军团。辛被提醒：你离基利亚的堕落只差一步。<span style="color:var(--gold)">平行叙事线：共和国防线即将崩溃。</span></div>
+      </div>
+    </div>
+    <div class="ep-item">
+      <div class="ep-num">16</div>
+      <div class="ep-content">
+        <div class="ep-title">それでも <small>Even So</small></div>
+        <div class="ep-summary">军团对联邦、共和国及所有盟国发动史上最大规模同步进攻。辛在战斗中被芙蕾德利卡看到他「享受厮杀」——与基利亚堕落的镜像。共和国防线崩溃。<span style="color:var(--crimson-light)">蕾娜在共和国线使用升级版 Para-RAID 同时连接所有86飞行员进行绝境指挥。</span></div>
+      </div>
+    </div>
+    <div class="ep-item climax">
+      <div class="ep-num">17</div>
+      <div class="ep-content">
+        <div class="ep-title">忘れません <small>I Won't Forget</small></div>
+        <div class="ep-summary">蕾娜在共和国组织绝望的最后抵抗。联邦发现军团使用了一门代号「魔炮 Morpho」的超远程电磁轨道炮。联邦决定派遣诺德licht中队执行深入打击任务摧毁它——几乎等同于自杀任务。辛收到的来自尤金妹妹的质问信成为又一重心理负担。<span style="color:var(--crimson-bright)">共和国首都沦陷，蕾娜家园被毁。</span></div>
+      </div>
+    </div>
+    <div class="ep-item">
+      <div class="ep-num">18</div>
+      <div class="ep-content">
+        <div class="ep-title">本当は <small>The Truth Is</small></div>
+        <div class="ep-summary">格雷特坚持使用试作型地面效应飞行器「纳赫采尔」（Nachzehrer）作为运输工具并亲自驾机。芙蕾德利卡试图劝阻辛参加任务失败。恩斯特无法阻止，私下向自己发誓：如果孩子们回不来，他要毁灭这个世界。联邦盟军发动全面佯攻牵制军团，诺德licht中队升空。<span style="color:var(--gold)">辛在飞行中听到黑羊的声音，微笑了——又一次危险信号。</span></div>
+      </div>
+    </div>
+    <div class="ep-item climax">
+      <div class="ep-num">19</div>
+      <div class="ep-content">
+        <div class="ep-title">いっそ このまま <small>Stay This Way Forever</small></div>
+        <div class="ep-summary">空投着陆后诺德licht中队遭遇顽强抵抗。辛在最后关头发现：被损毁的魔炮只是诱饵——真正的魔炮由基利亚直接控制。可蕾娜被迫开枪打辛的机甲来阻止他杀红眼。基利亚在无面命令下撤退。辛追击。<span style="color:var(--crimson-bright)">芙蕾德利卡藏在 Fido 货仓里偷渡到前线。</span></div>
+      </div>
+    </div>
+
+    <div class="ep-header">Part 2 · 第三幕 · 终战与重生</div>
+
+    <div class="ep-item">
+      <div class="ep-num">20</div>
+      <div class="ep-content">
+        <div class="ep-title">死ぬまで一緒に <small>Together Unto Death</small></div>
+        <div class="ep-summary">追击途中，莱登警告辛不要独自冒险。芙蕾德利卡与大家约定：战后一起去看海。深夜，芙蕾德利卡向辛坦白——「我也害怕失去存在的目的，我以为解放基利亚就是我活下去的意义，但那只是在逃避。」辛回应以全剧最脆弱的自白：「自从那次濒死体验后，我再也没有感受过任何欲望。」<span style="color:var(--gold)">两个被战争掏空的灵魂的深夜交心。</span></div>
+      </div>
+    </div>
+    <div class="ep-item climax">
+      <div class="ep-num">21</div>
+      <div class="ep-content">
+        <div class="ep-title">もうこれしか <small>All That's Left</small></div>
+        <div class="ep-summary">安琪、赛欧、可蕾娜留下殿后，莱登在保护芙蕾德利卡时负伤。辛独自追击基利亚，弹药即将耗尽。未知方向的炮火支援（蕾娜）击损魔炮。芙蕾德利卡冲上战场，基利亚仍疯狂不止——她将枪口对准自己。基利亚冲上前阻止，辛抓住机会零距离摧毁核心。芙蕾德利卡目睹基利亚将她的安全托付给辛，随后被修雷引领走向彼岸。<span style="color:var(--crimson-bright)">魔炮自毁爆炸，辛和芙蕾德利卡在爆炸半径之内。</span></div>
+      </div>
+    </div>
+    <div class="ep-item climax">
+      <div class="ep-num">22</div>
+      <div class="ep-content">
+        <div class="ep-title">シン <small>Shin</small></div>
+        <div class="ep-summary">辛被爆炸震飞昏迷。醒来后面对要收割他大脑的军团，被蕾娜所救——但蕾娜没有认出他。一段不知对象的对话中，蕾娜说出她战斗的原因：「先锋中队启发了我，我想活下来追上辛他们。」辛选择不暴露身份。<span style="color:var(--crimson-bright)">芙蕾德利卡点破：「见到蕾娜后，你终于找到了活下去的理由。」</span></div>
+      </div>
+    </div>
+    <div class="ep-item">
+      <div class="ep-num">23</div>
+      <div class="ep-content">
+        <div class="ep-title">ハンドラー・ワン <small>Handler One</small></div>
+        <div class="ep-summary">圣诞假期的温馨日常。辛祭扫尤金的墓，承诺「活着回来告诉他外面的世界」。五人在联邦军事纪念碑前留下修雷的名牌——辛终于放下了哥哥。新编「第86打击群」由蕾娜指挥。共和国沦陷后的86族获联邦庇护和公民权。蕾娜与安内特转至联邦——<span style="color:var(--gold)">在机场看到辛和所有人还活着时，她终于笑出了声。全剧在「并肩战斗」的承诺中落幕。</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THEMES -->
+<section id="themes" class="section">
+  <div class="section-label">VII · Thematic Analysis</div>
+  <h2 class="section-title">主题解析</h2>
+  <p class="section-subtitle">Part 2 的六大核心主题</p>
+  <div class="theme-grid">
+    <div class="theme-card">
+      <div class="theme-num">01</div>
+      <div class="theme-name">生存者愧疚与存在主义危机</div>
+      <div class="theme-body">Part 2 的核心哲学命题。辛、莱登、赛欧、安琪、可蕾娜——五个从绞肉机中走出来的人，却发现「活下来」本身带来了新的痛苦。他们不是因为害怕死亡而上战场，而是因为<span style="color:var(--gold-light)">不知道没有战场的生活该如何继续</span>。这种「幸存者比死者更迷茫」的叙事，是对传统战争故事的深刻颠覆。</div>
+    </div>
+    <div class="theme-card">
+      <div class="theme-num">02</div>
+      <div class="theme-name">镜像与宿命：辛 × 基利亚</div>
+      <div class="theme-body">Part 2 最精妙的叙事设计。辛与基利亚同属诺赞家族，同样拥有杀戮的天赋与倾向，同样在战争中丧失理智。芙蕾德利卡看到的辛「享受战斗」的画面，正是基利亚堕落前的倒影。两人的区别在于：<span style="color:var(--crimson-light)">基利亚失去了他守护的人（芙蕾德利卡「死了」），而辛即将遇到蕾娜</span>。一个锚点的有无，决定了深渊之上是桥还是坠落。</div>
+    </div>
+    <div class="theme-card">
+      <div class="theme-num">03</div>
+      <div class="theme-name">记忆的政治学：名牌、纪念碑与遗忘</div>
+      <div class="theme-body">辛收集561个战友名牌的行为贯穿全系列。Part 2 中，联邦将这块纪念碑实体化——从个人执念升格为公共记忆。最终辛将修雷的名牌留在碑上、走向前线，象征着从「为死者承担记忆」到「为生者争取未来」的转变。<span style="color:var(--gold-light)">记忆不再是被动的负担，而成为主动的驱动力。</span></div>
+    </div>
+    <div class="theme-card">
+      <div class="theme-num">04</div>
+      <div class="theme-name">理想主义的代价：恩斯特、格雷特与芙蕾德利卡</div>
+      <div class="theme-body">联邦的三个「良心」角色各自承受着理想主义的重压。恩斯特想保护每一个孩子却无力阻止军方使用他们。格雷特反对未成年士兵上战场但无法改变体制。芙蕾德利卡想拯救骑士却发现自己的存在本身就是导致他堕落的原因。<span style="color:var(--crimson-light)">善良的人做出的善良选择，未必通向善良的结果。</span></div>
+    </div>
+    <div class="theme-card">
+      <div class="theme-num">05</div>
+      <div class="theme-name">军团与人性：黑羊、牧羊人与「无面」</div>
+      <div class="theme-body">军团不是无脑机器——它们复制死者的大脑创造「黑羊」和「牧羊人」，本质上是在<span style="color:var(--crimson-light)">用人性的碎片构建反人性的武器</span>。牧羊人保留了生前的记忆和情感（修雷的疯狂保护欲、基利亚对芙蕾德利卡的执念），但被扭曲为杀戮的燃料。最高指挥官「无面」竟是蕾娜的父亲——「被杀死的良知」成了压迫者的指挥官，这个讽刺是叙事中最锋利的一刀。</div>
+    </div>
+    <div class="theme-card">
+      <div class="theme-num">06</div>
+      <div class="theme-name">「去看海」——日常渴望作为终极隐喻</div>
+      <div class="theme-body">第20话中芙蕾德利卡提议「战后一起去看海」，所有人答应了。这个简单的约定是 Part 2 中最温暖也最令人心碎的瞬间。对于这些在战争中长大的少年少女来说，<span style="color:var(--gold-light)">「看海」不是旅行计划，而是一个对未来做出承诺的行为——是「我还想活着」的宣言。</span>整部动画中，他们从未见过海；这个约定的存在本身，就是反抗战争虚无主义的最后防线。</div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATIONSHIPS -->
+<section id="relations" class="section">
+  <div class="section-label">VIII · Relationship Map</div>
+  <h2 class="section-title">关系图谱</h2>
+  <p class="section-subtitle">Part 2 中关键角色之间的情感与叙事连接</p>
+  <div class="relation-section">
+    <div class="relation-group">
+      <div class="relation-group-title">核心三角 · 辛—芙蕾德利卡—基利亚</div>
+      <ul class="relation-list">
+        <li class="relation-item">
+          <span class="relation-from">芙蕾德利卡</span>
+          <span class="relation-arrow">→</span>
+          <span class="relation-to">辛<span class="relation-note">请求解放骑士基利亚；视辛为镜像（都背负着无法放下的亡者）；深夜交心</span></span>
+        </li>
+        <li class="relation-item">
+          <span class="relation-from">芙蕾德利卡</span>
+          <span class="relation-arrow">→</span>
+          <span class="relation-to">基利亚<span class="relation-note">她的骑士；她的「假死」直接导致基利亚融入军团；最后的见面以枪口对自己唤醒他残存的人性</span></span>
+        </li>
+        <li class="relation-item">
+          <span class="relation-from">辛</span>
+          <span class="relation-arrow">→</span>
+          <span class="relation-to">基利亚<span class="relation-note">远亲，诺赞家族血脉；辛最大的恐惧是「成为下一个基利亚」；亲手摧毁基利亚核心</span></span>
+        </li>
+      </ul>
+    </div>
+    <div class="relation-group">
+      <div class="relation-group-title">情感轴心 · 辛—蕾娜</div>
+      <ul class="relation-list">
+        <li class="relation-item">
+          <span class="relation-from">辛</span>
+          <span class="relation-arrow">→</span>
+          <span class="relation-to">蕾娜<span class="relation-note">Part 1 建立的羁绊在 Part 2 中以「缺席」的方式加强；第22话偶遇是全剧转折——「找到活下去的理由」</span></span>
+        </li>
+        <li class="relation-item">
+          <span class="relation-from">蕾娜</span>
+          <span class="relation-arrow">→</span>
+          <span class="relation-to">辛（未知）<span class="relation-note">第22话中不认识辛却说出战斗的理由；远程炮火在第21话支援辛的战斗（心电感应的暗示）</span></span>
+        </li>
+      </ul>
+    </div>
+    <div class="relation-group">
+      <div class="relation-group-title">联邦家族 · 恩斯特与养子女们</div>
+      <ul class="relation-list">
+        <li class="relation-item">
+          <span class="relation-from">恩斯特</span>
+          <span class="relation-arrow">→</span>
+          <span class="relation-to">五人 + 芙蕾德利卡<span class="relation-note">收养为养子女；想保护他们但军事现实不允许；「如果他们回不来，我宁可毁灭这个世界」</span></span>
+        </li>
+        <li class="relation-item">
+          <span class="relation-from">芙蕾德利卡</span>
+          <span class="relation-arrow">→</span>
+          <span class="relation-to">恩斯特<span class="relation-note">养父，但也是「杀死她家人」的革命政权的领袖；她选择原谅并信任他</span></span>
+        </li>
+      </ul>
+    </div>
+    <div class="relation-group">
+      <div class="relation-group-title">战友纽带 · 先锋中队幸存者</div>
+      <ul class="relation-list">
+        <li class="relation-item">
+          <span class="relation-from">莱登</span>
+          <span class="relation-arrow">→</span>
+          <span class="relation-to">辛<span class="relation-note">最亲密的战友与「刹车」；第20话直言警告：不要一个人送死</span></span>
+        </li>
+        <li class="relation-item">
+          <span class="relation-from">可蕾娜</span>
+          <span class="relation-arrow">→</span>
+          <span class="relation-to">辛<span class="relation-note">暗恋（但辛只视她为姐姐）；在第19话被迫开枪打辛的机甲来阻止他——从爱到恐惧的弧线</span></span>
+        </li>
+        <li class="relation-item">
+          <span class="relation-from">辛</span>
+          <span class="relation-arrow">→</span>
+          <span class="relation-to">尤金<span class="relation-note">联邦的第一个朋友；安乐死尤金后承受其妹妹的怨恨；扫墓时承诺「活着回来」</span></span>
+        </li>
+      </ul>
+    </div>
+    <div class="relation-group">
+      <div class="relation-group-title">阴影 · 军团与「无面」</div>
+      <ul class="relation-list">
+        <li class="relation-item">
+          <span class="relation-from">无面</span>
+          <span class="relation-arrow">→</span>
+          <span class="relation-to">基利亚<span class="relation-note">牧羊人的上级指挥官；命令基利亚撤退；操控魔炮的战略部署</span></span>
+        </li>
+        <li class="relation-item">
+          <span class="relation-from">无面（瓦茨拉夫）</span>
+          <span class="relation-arrow">→</span>
+          <span class="relation-to">蕾娜（不知）<span class="relation-note">蕾娜的父亲——被军团杀死后成为最高人工智能指挥官。父女关系成为后续剧情最大悬念</span></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- VERDICT -->
+<section id="verdict" class="section">
+  <div class="section-label">IX · Verdict</div>
+  <h2 class="section-title">总评：Part 2 的位置与意义</h2>
+  <p class="section-subtitle">叙事野心、情感密度与制作水准的综合审视</p>
+  <div class="prose">
+    <p>「86」Part 2 是2021-2022年日本TV动画中最被低估的篇章之一。它做了许多同类作品不敢做的事：<span class="highlight">用整整12话的篇幅让主角陷入存在危机，而不是用战斗来掩盖内心的空洞</span>。辛和蕾娜在第22话的「不识之重逢」是教科书级别的叙事设计——两个人在不知道对方身份的情况下，用各自最真实的部分触碰了彼此的灵魂。</p>
+    <p>制作层面，A-1 Pictures 在延期两个月的最后两话（22、23话）中倾注了全剧最高的情感密度。石井俊匡的监督确保了每一帧的摄影、分镜、色彩设计都服务于叙事而非炫技。<span class="highlight">泽野弘之的音乐在 Part 2 中从 Part 1 的史诗悲壮转向更加私密、更加脆弱的声景</span>——片尾曲「LilaS」（SawanoHiroyuki[nZk]:Honoka Takahashi）在第12话的使用尤其令人心碎。</p>
+    <p>从叙事结构上看，Part 2 完美完成了它的使命：它为辛、蕾娜、芙蕾德利卡的故事弧线画上了一个阶段性句号，同时用「无面」的身份揭露为后续剧情埋下了最深的伏笔。它证明了<span class="highlight-crimson">一部优秀的战争动画不需要靠战斗场面取胜——它需要让你在意那些人</span>。</p>
+  </div>
+  <div class="pull-quote">
+    「86」的 Part 2 告诉你：活着不是结局，而是另一个开始。而在你重新开始之前，你需要先学会接受——接受死去的人已经离去，接受你还有权选择接下来的路。
+    <span class="quote-attr">—— 全篇总评</span>
+  </div>
+  <div class="verdict-stats">
+    <div class="verdict-stat">
+      <div class="verdict-stat-num gold">8.35</div>
+      <div class="verdict-stat-label">MAL 评分 · Part 1</div>
+    </div>
+    <div class="verdict-stat">
+      <div class="verdict-stat-num crimson">#273</div>
+      <div class="verdict-stat-label">MAL 总排名</div>
+    </div>
+    <div class="verdict-stat">
+      <div class="verdict-stat-num light">23</div>
+      <div class="verdict-stat-label">全片总话数</div>
+    </div>
+    <div class="verdict-stat">
+      <div class="verdict-stat-num ice">14</div>
+      <div class="verdict-stat-label">原作轻小说卷数（截至2025）</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+  <div class="footer-line"></div>
+  <div>86—Eighty Six— · Part II Deep Analysis</div>
+  <div class="footer-credit">Based on Light Novel by Asato Asato (ASCII Media Works) · Anime by A-1 Pictures</div>
+  <div class="footer-credit">This page is a fan-made analysis, not an official production.</div>
+</footer>
+
+</body>
+</html>
